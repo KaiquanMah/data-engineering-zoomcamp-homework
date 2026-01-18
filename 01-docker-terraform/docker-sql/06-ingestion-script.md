@@ -10,6 +10,12 @@ Now let's convert the notebook to a Python script.
 uv run jupyter nbconvert --to=script notebook.ipynb
 mv notebook.py ingest_data.py
 ```
+* KAI - my notebook was created in jupyterlab with the required name in the pipeline folder path
+```bash
+01-docker-terraform/docker-sql/pipeline/05-data-ingestion-workings.ipynb
+```
+
+
 
 ## The Complete Ingestion Script
 
