@@ -51,6 +51,48 @@ docker run -it \
 * **Named volume** (`name:/path`): Managed by Docker, easier
 * **Bind mount** (`/host/path:/container/path`): Direct mapping to host filesystem, more control
 
+
+### Actual tryout
+```bash
+# volumes tt docker knows abt
+# Docker's internal database of volumes
+# → If ny_taxi_postgres_data exists → Docker uses that volume.
+# → If it doesn't exist → Docker automatically creates a new volume with this name.
+@kaiquanmah0 ➜ /workspaces/data-engineering-zoomcamp-homework (main) $ docker volume ls
+DRIVER    VOLUME NAME
+local     ny_taxi_postgres_data
+
+```
+
+* Physical storage location (hidden from you)
+*   → Docker stores the actual data in its private storage area on the host:
+```bash
+# Typical location on Linux:
+# On macOS/Windows (inside Docker VM):
+/var/lib/docker/volumes/ny_taxi_postgres_data/_data/
+
+
+@kaiquanmah0 ➜ /workspaces/data-engineering-zoomcamp-homework (main) $ docker volume inspect ny_taxi_postgres_data
+[
+    {
+        "CreatedAt": "2026-01-18T07:27:23Z",
+        "Driver": "local",
+        "Labels": null,
+        "Mountpoint": "/var/lib/docker/volumes/ny_taxi_postgres_data/_data",
+        "Name": "ny_taxi_postgres_data",
+        "Options": null,
+        "Scope": "local"
+    }
+]
+
+
+@kaiquanmah0 ➜ /workspaces/data-engineering-zoomcamp-homework (main) $ cd /var/lib/docker/volumes/
+bash: cd: /var/lib/docker/volumes/: Permission denied
+```
+
+
+
+
 ## Connecting to PostgreSQL
 
 Once the container is running, we can log into our database with [pgcli](https://www.pgcli.com/).
@@ -59,9 +101,19 @@ Install pgcli:
 
 ```bash
 uv add --dev pgcli
+
+
+
+@kaiquanmah0 ➜ /workspaces/data-engineering-zoomcamp-homework (main) $ cd 01-docker-terraform/docker-sql/pipeline/
+@kaiquanmah0 ➜ .../data-engineering-zoomcamp-homework/01-docker-terraform/docker-sql/pipeline (main) $ uv add --dev pgcli
+Resolved 120 packages in 0.63ms
+Audited 115 packages in 51ms
 ```
 
-The `--dev` flag marks this as a development dependency (not needed in production). It will be added to the `[dependency-groups]` section of `pyproject.toml` instead of the main `dependencies` section.
+The `--dev` flag marks this as a **development dependency (not needed in production)**. It will be added to the `[dependency-groups]` section of `pyproject.toml` instead of the main `dependencies` section.
+
+
+
 
 Now use it to connect to Postgres:
 
@@ -78,6 +130,21 @@ uv run pgcli -h localhost -p 5432 -u root -d ny_taxi
 
 When prompted, enter the password: `root`
 
+```bash
+@kaiquanmah0 ➜ .../data-engineering-zoomcamp-homework/01-docker-terraform/docker-sql/pipeline (main) $ uv run pgcli -h localhost -p 5432 -u root -d ny_taxi
+
+Password for root: 
+Using local time zone Etc/UTC (server uses Etc/UTC)
+Use `set time zone <TZ>` to override, or set `use_local_timezone = False` in the config
+Server: PostgreSQL 18.1 (Debian 18.1-1.pgdg13+2)
+Version: 4.3.0
+Home: http://pgcli.com
+
+
+root@localhost:ny_taxi>
+```
+
+
 ## Basic SQL Commands
 
 Try some SQL commands:
@@ -85,6 +152,20 @@ Try some SQL commands:
 ```sql
 -- List tables
 \dt
+
+root@localhost:ny_taxi> \dt
++--------+------+------+-------+
+| Schema | Name | Type | Owner |
+|--------+------+------+-------|
++--------+------+------+-------+
+SELECT 0
+Time: 0.009s
+
+
+
+
+
+
 
 -- Create a test table
 CREATE TABLE test (id INTEGER, name VARCHAR(50));
@@ -94,6 +175,36 @@ INSERT INTO test VALUES (1, 'Hello Docker');
 
 -- Query data
 SELECT * FROM test;
+
+
+
+root@localhost:ny_taxi> \dt
++--------+------+-------+-------+
+| Schema | Name | Type  | Owner |
+|--------+------+-------+-------|
+| public | test | table | root  |
++--------+------+-------+-------+
+SELECT 1
+Time: 0.004s
+
+root@localhost:ny_taxi> SELECT * FROM test;
++----+--------------+
+| id | name         |
+|----+--------------|
+| 1  | Hello Docker |
++----+--------------+
+SELECT 1
+Time: 0.005s
+
+
+
+
+
+
+
+
+
+
 
 -- Exit
 \q
