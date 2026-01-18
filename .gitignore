@@ -1,0 +1,5 @@
+# virtualenv
+*/.venv/*
+
+# pipeline output files
+*.parquet

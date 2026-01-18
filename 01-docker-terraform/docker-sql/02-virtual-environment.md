@@ -78,8 +78,34 @@ This creates a `pyproject.toml` file for managing dependencies and a `.python-ve
 uv run which python  # Python in the virtual environment
 uv run python -V
 
+@kaiquanmah0 ➜ .../data-engineering-zoomcamp-homework/01-docker-terraform/docker-sql/pipeline (main) $ uv run which python 
+Using CPython 3.13.11
+Creating virtual environment at: .venv
+░░░░░░░░░░░░░░░░░░░░ [0/115] Installing wheels...                                                                                                               warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
+         If the cache and target directories are on different filesystems, hardlinking may not be supported.
+         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
+Installed 115 packages in 16.80s
+
+/workspaces/data-engineering-zoomcamp-homework/01-docker-terraform/docker-sql/pipeline/.venv/bin/python
+@kaiquanmah0 ➜ .../data-engineering-zoomcamp-homework/01-docker-terraform/docker-sql/pipeline (main) $ uv run python -V
+Python 3.13.11
+
+
+
+
+
+
+
+
+
 which python        # System Python
 python -V
+
+
+@kaiquanmah0 ➜ /workspaces/data-engineering-zoomcamp-homework (main) $ which python
+/home/codespace/.python/current/bin/python
+@kaiquanmah0 ➜ /workspaces/data-engineering-zoomcamp-homework (main) $ python -V
+Python 3.12.1
 ```
 
 You'll see they're different - `uv run` uses the isolated environment.
@@ -100,6 +126,19 @@ Now we can execute the file:
 
 ```bash
 uv run python pipeline.py 10
+
+
+
+@kaiquanmah0 ➜ .../data-engineering-zoomcamp-homework/01-docker-terraform/docker-sql/pipeline (main) $ uv run python pipeline.py 10
+arguments ['pipeline.py', '10']
+Running pipeline for day 10
+   A  B
+0  1  3
+1  2  4
+
+
+# Parquet file created and placed in
+01-docker-terraform/docker-sql/pipeline/output_day_10.parquet
 ```
 
 We will see:
