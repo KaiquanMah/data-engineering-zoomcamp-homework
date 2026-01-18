@@ -63,6 +63,11 @@ d63d0532dd37   none         null      local
 Stop both containers and re-run them with the network configuration:
 
 ```bash
+cd 01-docker-terraform/docker-sql/pipeline/
+docker stop pgadmin pgdatabase
+docker rm pgadmin pgdatabase
+
+
 # Run PostgreSQL on the network
 # added network - same network for both docker containers
 #       name - to identify DB or pgadmin
