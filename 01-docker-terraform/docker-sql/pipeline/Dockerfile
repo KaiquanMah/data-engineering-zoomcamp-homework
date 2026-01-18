@@ -15,7 +15,7 @@ RUN uv sync --locked
 # copy the files we want
 # 03-dockerizing-pipeline
 # COPY pipeline.py .
-# later lessons
+# 08-dockerizing-ingestion
 COPY ingest_data.py .
 
 
@@ -23,5 +23,5 @@ COPY ingest_data.py .
 # what to do 1st
 # 03-dockerizing-pipeline
 # ENTRYPOINT ["python", "pipeline.py"]
-# later lessons
+# 08-dockerizing-ingestion
 ENTRYPOINT ["python", "ingest_data.py"]

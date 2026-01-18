@@ -4,7 +4,7 @@
 
 `pgcli` is a handy tool but it's cumbersome to use for complex queries and database management. [`pgAdmin` is a web-based tool](https://www.pgadmin.org/) that makes it more convenient to access and manage our databases.
 
-It's possible to run pgAdmin as a container along with the Postgres container, but both containers will have to be in the same _virtual network_ so that they can find each other.
+It's possible to run pgAdmin as a container along with the Postgres container, but both containers will have to be in the **same _virtual network_ so that they can find each other.**
 
 ## Run pgAdmin Container
 
@@ -26,6 +26,11 @@ The `-v pgadmin_data:/var/lib/pgadmin` volume mapping saves pgAdmin settings (se
 * The actual image name is `dpage/pgadmin4`.
 
 **Note:** This won't work yet because pgAdmin can't see the PostgreSQL container. They need to be on the same Docker network!
+
+
+
+
+
 
 ## Docker Networks
 
@@ -66,6 +71,10 @@ docker run -it \
 
 * Just like with the Postgres container, we specify a network and a name for pgAdmin.
 * The container names (`pgdatabase` and `pgadmin`) allow the containers to find each other within the network.
+
+
+
+
 
 ## Connect pgAdmin to PostgreSQL
 
