@@ -239,11 +239,11 @@ pgadmin_data
   -e POSTGRES_USER="root" \
   -e POSTGRES_PASSWORD="root" \
   -e POSTGRES_DB="ny_taxi" \
-  -v ny_taxi_postgres_data:/var/lib/postgresql/data \
+  -v ny_taxi_postgres_data:/var/lib/postgresql \
   -p 5432:5432 \
   --network=pg-network \
   --name pgdatabase \
-  postgres:13
+  postgres:18
 Unable to find image 'postgres:13' locally
 13: Pulling from library/postgres
 d7ecded7702a: Pull complete 
@@ -278,6 +278,7 @@ with an argument other than "/var/lib/postgresql/data".
 ```
 * Terminal 2 - Rerun pgadmin container with additional environment variables to disable enhanced cookie protection and CSRF protection
 ```bash
+# Terminal 2 - rerun pgadmin container
 @kaiquanmah0 ➜ /workspaces/data-engineering-zoomcamp-homework (main) $ docker run -it \
   -e PGADMIN_DEFAULT_EMAIL="admin@admin.com" \
   -e PGADMIN_DEFAULT_PASSWORD="root" \
