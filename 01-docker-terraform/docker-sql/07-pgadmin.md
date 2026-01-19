@@ -369,7 +369,7 @@ postfix/postfix-script: starting the Postfix mail system
 "GET /misc/bgprocess/ HTTP/1.1" 200 2                    // ✅ Success!
 "GET /preferences/get_all HTTP/1.1" 200 11809            // ✅ Success!
 ```
-* 4. Why GitHub Codespaces Specifically Causes This Issue
+* Why GitHub Codespaces Specifically Causes This Issue
 The Proxy Chain Problem:
 ```bash
 Browser → GitHub Edge (HTTPS) → Codespace Proxy → Docker Container (HTTP)
