@@ -1,0 +1,11 @@
+[project]
+name = "homework-ingestion"
+version = "0.1.0"
+description = "Ingest NYC green taxi and zone lookup data into PostgreSQL"
+requires-python = ">=3.13"
+dependencies = [
+    "pandas>=2.2.0",
+    "pyarrow>=18.0.0",
+    "sqlalchemy>=2.0.0",
+    "psycopg2-binary>=2.9.0",
+]
