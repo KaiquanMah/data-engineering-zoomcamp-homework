@@ -140,13 +140,33 @@ Error: No such option: --user (Possible options: --pg-user, --year)
     --target-table=yellow_taxi_trips
 14it [02:18,  9.89s/it]
 
-
 ```
+
 
 ### Important Notes
 
 * We need to provide the network for Docker to find the Postgres container. It goes before the name of the image.
 * Since Postgres is running on a separate container, the host argument will have to point to the container name of Postgres (`pgdatabase`).
 * You can drop the table in pgAdmin beforehand if you want, but the script will automatically replace the pre-existing table.
+
+
+
+
+## PgAdmin - Verify Ingestion
+1. Open pgAdmin in your browser from the port 8085 public URL
+2. Login
+3. Object explorer > Servers > Register
+```
+name - pg
+hostname - pgdatabase
+port - 5432
+username - root
+password - root
+```
+4. Save
+5. servers > pg > Databases > ny_taxi > Schemas > public > Tables > yellow_taxi_trips
+6. Right click > View/Edit Data > First 100 Rows
+
+
 
 **[↑ Up](README.md)** | **[← Previous](07-pgadmin.md)** | **[Next →](09-docker-compose.md)**
