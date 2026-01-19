@@ -349,6 +349,8 @@ postfix/postfix-script: starting the Postfix mail system
 ```
 * Then in codespace >> ports >> 8085 >> public >> copy URL and open in new browser tab
 * Login >> Now pgadmin loads properly after login
+
+
 |Environment Variable|Purpose|
 |--------------------|-------|
 |PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION="False"| **Disables enhanced cookie protection which can interfere with reverse proxy setups**. GitHub Codespaces uses a complex reverse proxy setup with domain names like expert-waddle-v6w4g64w564wc7wv-<portNumber>.app.github.dev. Enhanced cookie protection blocks cookies when the domain doesn't match exactly. Without this, session cookies were being rejected → API calls failed with 401 errors|
@@ -375,6 +377,7 @@ Browser → GitHub Edge (HTTPS) → Codespace Proxy → Docker Container (HTTP)
 * Protocol Switch: HTTPS (external) → HTTP (internal container)
 * Domain Mismatch: *.app.github.dev vs container's internal hostname
 * Header Modification: Proxy adds/changes headers that security features check
+
 |Security Feature|What it expects|What proxy provides|Result|
 |----------------|---------------|-------------------|------|
 |Session cookies|Same domain|Different domain|❌ Rejected|
