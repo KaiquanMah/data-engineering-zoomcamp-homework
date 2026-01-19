@@ -38,8 +38,13 @@ volumes:
 
 ### Explanation
 
-* We don't have to specify a network because `docker-compose` takes care of it: every single container (or "service", as the file states) will run within the same network and will be able to find each other according to their names (`pgdatabase` and `pgadmin` in this example).
+* **We don't have to specify a network because `docker-compose` takes care of it**: every single container (or "service", as the file states) will run within the same network and will be able to find each other according to their names (`pgdatabase` and `pgadmin` in this example).
 * All other details from the `docker run` commands (environment variables, volumes and ports) are mentioned accordingly in the file following YAML syntax.
+
+
+
+
+
 
 ## Start Services with Docker Compose
 
