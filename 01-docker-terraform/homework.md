@@ -25,6 +25,33 @@ What's the version of `pip` in the image?
 - 24.2.1
 - 23.3.1
 
+* Workings
+```bash
+# docker exec -it <container_id> bash
+docker run -it python:3.13 bash
+pip --version
+
+
+
+@kaiquanmah0 ➜ /workspaces/data-engineering-zoomcamp-homework (main) $ docker run -it python:3.13 bash
+Unable to find image 'python:3.13' locally
+3.13: Pulling from library/python
+2ca1bfae7ba8: Pull complete 
+82e18c5e1c15: Pull complete 
+be442a7e0d6f: Pull complete 
+26d823e3848f: Pull complete 
+ca4b54413202: Pull complete 
+b6513238a015: Pull complete 
+9b57076d00d4: Pull complete 
+Digest: sha256:02865b3929f3910fc2d6ebbf745bf00504d316478dacaea7d9e230e134411bcb
+Status: Downloaded newer image for python:3.13
+root@59ec6bea23fe:/# pip --version
+pip 25.3 from /usr/local/lib/python3.13/site-packages/pip (python 3.13)
+```
+
+* Answer: 25.3
+
+
 
 ## Question 2. Understanding Docker networking and docker-compose
 
@@ -62,13 +89,22 @@ volumes:
     name: vol-pgadmin_data
 ```
 
+If multiple answers are correct, select any
 - postgres:5433
 - localhost:5432
 - db:5433
 - postgres:5432
 - db:5432
 
-If multiple answers are correct, select any 
+Answer
+- db:5432
+  - Service name: db (this is what other services use to connect)
+  - **Internal container port: 5432 (where PostgreSQL actually listens inside the container)**
+  - **Host port mapping: 5433:5432 (for external access from your machine**, not for inter-container communication)
+  - Since both db and pgadmin services are in the **same docker-compose network, pgadmin should use the internal container port 5432 (not the mapped host port 5433)**
+  - localhost - pgadmin's own local container, NOT postgres 'db' container
+
+
 
 
 ## Prepare the Data
@@ -84,6 +120,23 @@ You will also need the dataset with zones:
 ```bash
 wget https://github.com/DataTalksClub/nyc-tlc-data/releases/download/misc/taxi_zone_lookup.csv
 ```
+
+### Kai - Steps to ingest the parquet and CSV with containerised ingestion (after launching docker-compose)
+* Give me commands to run only
+* DO NOT RUN IN MY LOCAL LAPTOP RIGHT NOW
+```bash
+docker run -it \
+  --network=pipeline_default \
+  taxi_ingest:v001 \
+    --pg-user=root \
+    --pg-pass=root \
+    --pg-host=pgdatabase \
+    --pg-port=5432 \
+    --pg-db=ny_taxi \
+    --target-table=green_taxi_trips \
+    --file=green_tripdata_2025-11.parquet
+```
+
 
 ## Question 3. Counting short trips
 
