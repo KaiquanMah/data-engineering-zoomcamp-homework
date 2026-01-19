@@ -262,6 +262,10 @@ e4446493a9e8   pipeline_default   bridge    local
  ✔ Network pipeline_default         Removed    
 ```
 
+
+<img width="1871" height="520" alt="ingest-data-pgadmin" src="https://github.com/user-attachments/assets/be990c6f-32d5-4b86-b56c-01f9511b1754" />
+
+
 * Kai remarks
   * Create default network - created (at the start) and deleted (at the end) automatically by Docker Compose
     * **If we do not specify the network in the `docker-compose.yaml file`**, the default network created by Docker Compose will be named based on the directory name with `_default` suffix.
