@@ -24,7 +24,7 @@ provider "google" {
 
 resource "google_storage_bucket" "data-lake-bucket" {
   # name          = "<Your Unique Bucket Name>"
-  name          = "w1-terraform-lesson"
+  name          = "w1_terraform_lesson"
   location      = "US"
 
   # Optional, but recommended settings:
