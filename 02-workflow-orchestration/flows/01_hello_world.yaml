@@ -15,16 +15,16 @@ variables:
   
 tasks:
   - id: hello_message
-    type: io.kestra.plugin.core.log.Log
+    type: io.kestra.plugin.core.log.Log           # log msg to console
     message: "{{ render(vars.welcome_message) }}"
   
   - id: generate_output
-    type: io.kestra.plugin.core.debug.Return
+    type: io.kestra.plugin.core.debug.Return      # return/render output
     format: I was generated during this workflow.
 
   - id: sleep
-    type: io.kestra.plugin.core.flow.Sleep
-    duration: PT15S
+    type: io.kestra.plugin.core.flow.Sleep       # sleep for 15 seconds
+    duration: PT15S # 15 seconds
 
   - id: log_output
     type: io.kestra.plugin.core.log.Log
@@ -42,7 +42,8 @@ pluginDefaults:
 triggers:
   - id: schedule
     type: io.kestra.plugin.core.trigger.Schedule
-    cron: "0 10 * * *"
+    # min hr day month dayOfTheWeek (Reference: https://crontab.cronhub.io/)
+    cron: "0 10 * * *"  # 10am
     inputs:
       name: Sarah
     disabled: true

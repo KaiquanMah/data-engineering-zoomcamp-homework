@@ -380,7 +380,26 @@ depends_on:
       kestra_postgres:
         condition: service_healthy
 ```
+* Rerun the full docker file again
+```bash
+@kaiquanmah0 ➜ /workspaces/data-engineering-zoomcamp-homework/02-workflow-orchestration (main) $ docker compose down
+[+] Running 4/4
+ ✔ Container 02-workflow-orchestration-pgadmin-1          Removed                                                                                                                                            2.2s 
+ ✔ Container 02-workflow-orchestration-kestra-1           Removed                                                                                                                                            1.1s 
+ ✔ Container 02-workflow-orchestration-pgdatabase-1       Removed                                                                                                                                            0.4s 
+ ✔ Container 02-workflow-orchestration-kestra_postgres-1  Removed                                                                                                                                            0.3s 
 
+
+ 
+@kaiquanmah0 ➜ /workspaces/data-engineering-zoomcamp-homework/02-workflow-orchestration (main) $ docker compose up -d
+[+] Running 1/1
+ ✔ kestra Pulled                                                                                                                                                                                             2.3s 
+[+] Running 4/4
+ ✔ Container 02-workflow-orchestration-pgdatabase-1       Started                                                                                                                                            0.8s 
+ ✔ Container 02-workflow-orchestration-pgadmin-1          Started                                                                                                                                            0.6s 
+ ✔ Container 02-workflow-orchestration-kestra_postgres-1  Healthy                                                                                                                                           31.2s 
+ ✔ Container 02-workflow-orchestration-kestra-1           Started    
+```
 
 
 
