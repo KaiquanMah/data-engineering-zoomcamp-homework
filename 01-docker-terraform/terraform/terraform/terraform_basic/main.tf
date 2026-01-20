@@ -15,7 +15,7 @@ terraform {
 provider "google" {
 # Credentials only needs to be set if you do not have the GOOGLE_APPLICATION_CREDENTIALS set
 #  credentials = 
-  credentials = file("proud-outrider-483901-c3-2f890d3d3b86.json")
+  credentials = file("../proud-outrider-483901-c3-2f890d3d3b86.json")
   project = "proud-outrider-483901-c3"
   region  = "us-central1"
 }
