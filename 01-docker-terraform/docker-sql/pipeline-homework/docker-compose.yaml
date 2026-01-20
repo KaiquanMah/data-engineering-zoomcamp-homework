@@ -62,7 +62,11 @@ services:
 
 volumes:
   ny_taxi_postgres_data:
+    external: true
+    name: shared_ny_taxi_data  # Shared across pipeline and pipeline-homework
   pgadmin_data:
+    external: true
+    name: shared_pgadmin_data  # Shared across pipeline and pipeline-homework
 
 networks:
   pg-network:
