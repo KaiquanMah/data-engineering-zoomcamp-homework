@@ -1,19 +1,19 @@
 volumes:
   ny_taxi_postgres_data:
     driver: local
-    external: true
-    name: shared_ny_taxi_data  # Shared across pipeline and pipeline-homework
+    # external: true
+    # name: shared_ny_taxi_data  # Shared across pipeline and pipeline-homework
   # pgadmin_data:
   #   external: true
   #   name: shared_pgadmin_data  # Shared across pipeline and pipeline-homework
   kestra_postgres_data:
     driver: local
-    external: true
-    name: shared_kestra_postgres_data
+    # external: true
+    # name: shared_kestra_postgres_data
   kestra_data:
     driver: local
-    external: true
-    name: shared_kestra_data
+    # external: true
+    # name: shared_kestra_data
 
 services:
   pgdatabase:
