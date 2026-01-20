@@ -10,14 +10,16 @@ terraform {
 provider "google" {
 # Credentials only needs to be set if you do not have the GOOGLE_APPLICATION_CREDENTIALS set
 #  credentials = 
-  project = "<Your Project ID>"
+  credentials = "proud-outrider-483901-c3-2f890d3d3b86.json"
+  project = "proud-outrider-483901-c3"
   region  = "us-central1"
 }
 
 
 
 resource "google_storage_bucket" "data-lake-bucket" {
-  name          = "<Your Unique Bucket Name>"
+  # name          = "<Your Unique Bucket Name>"
+  name          = "w1-terraform-lesson"
   location      = "US"
 
   # Optional, but recommended settings:
@@ -42,7 +44,7 @@ resource "google_storage_bucket" "data-lake-bucket" {
 
 
 resource "google_bigquery_dataset" "dataset" {
-  dataset_id = "<The Dataset Name You Want to Use>"
-  project    = "<Your Project ID>"
+  dataset_id = "w1-terraform-lesson"
+  project    = "proud-outrider-483901-c3"
   location   = "US"
 }

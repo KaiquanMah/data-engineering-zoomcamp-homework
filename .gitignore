@@ -5,6 +5,10 @@
 *.parquet
 *.csv
 
+# credentials
+# **google_credentials.json
+proud-outrider-483901-c3-2f890d3d3b86.json
+
 
 # others
 .DS_Store
@@ -13,7 +17,6 @@
 *.tfstate.*
 **.terraform
 **.terraform.lock.*
-**google_credentials.json
 **logs/
 **.env
 **__pycache__/
