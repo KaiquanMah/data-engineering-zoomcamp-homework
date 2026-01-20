@@ -8,7 +8,7 @@ Ingests green taxi parquet and zone lookup CSV into PostgreSQL
 import os
 import time
 import pandas as pd
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.exc import OperationalError
 
 
@@ -17,7 +17,7 @@ def wait_for_postgres(engine, max_retries=30, delay=2):
     for i in range(max_retries):
         try:
             with engine.connect() as conn:
-                conn.execute("SELECT 1")
+                conn.execute(text("SELECT 1"))
             print("PostgreSQL is ready!")
             return True
         except OperationalError:
