@@ -49,7 +49,7 @@ resource "google_storage_bucket" "data-lake-bucket" {
 
 
 resource "google_bigquery_dataset" "dataset" {
-  dataset_id = "w1-terraform-lesson"
+  dataset_id = "w1_terraform_lesson"
   project    = "proud-outrider-483901-c3"
   location   = "US"
 }
