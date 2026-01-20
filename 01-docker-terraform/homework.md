@@ -121,21 +121,8 @@ You will also need the dataset with zones:
 wget https://github.com/DataTalksClub/nyc-tlc-data/releases/download/misc/taxi_zone_lookup.csv
 ```
 
-### Kai - Steps to ingest the parquet and CSV with containerised ingestion (after launching docker-compose)
-* Give me commands to run only
-* DO NOT RUN IN MY LOCAL LAPTOP RIGHT NOW
-```bash
-docker run -it \
-  --network=pipeline_default \
-  taxi_ingest:v001 \
-    --pg-user=root \
-    --pg-pass=root \
-    --pg-host=pgdatabase \
-    --pg-port=5432 \
-    --pg-db=ny_taxi \
-    --target-table=green_taxi_trips \
-    --file=green_tripdata_2025-11.parquet
-```
+### Kai - Steps to ingest the parquet and CSV with containerised ingestion
+* Please refer to the steps in `01-docker-terraform\docker-sql\pipeline-homework\README.md`
 
 
 ## Question 3. Counting short trips
@@ -146,6 +133,86 @@ For the trips in November 2025 (lpep_pickup_datetime between '2025-11-01' and '2
 - 8,007
 - 8,254
 - 8,421
+
+
+```sql
+-- check 1 record
+SELECT *
+FROM green_taxi_trips
+LIMIT 1;
+"VendorID"	"lpep_pickup_datetime"	"lpep_dropoff_datetime"	"store_and_fwd_flag"	"RatecodeID"	"PULocationID"	"DOLocationID"	"passenger_count"	"trip_distance"	"fare_amount"	"extra"	"mta_tax"	"tip_amount"	"tolls_amount"	"ehail_fee"	"improvement_surcharge"	"total_amount"	"payment_type"	"trip_type"	"congestion_surcharge"	"cbd_congestion_fee"
+2	"2025-11-01 00:34:48"	"2025-11-01 00:41:39"	"N"	1	74	42	1	0.74	7.2	1	0.5	1.94	0		1	11.64	1	1	0	0
+
+
+
+
+
+
+-- count distinct dates with records
+SELECT COUNT(DISTINCT DATE(lpep_pickup_datetime)) AS distinct_dates
+FROM green_taxi_trips
+WHERE lpep_pickup_datetime >= '2025-11-01 00:00:00'
+      AND lpep_pickup_datetime < '2025-12-01 00:00:00';
+"distinct_dates"
+30
+
+
+
+-- check dates with records
+SELECT DISTINCT DATE(lpep_pickup_datetime) AS pickup_date,
+COUNT(*) AS trip_count
+FROM green_taxi_trips
+WHERE lpep_pickup_datetime >= '2025-11-01 00:00:00'
+      AND lpep_pickup_datetime < '2025-12-01 00:00:00'
+GROUP BY pickup_date
+ORDER BY pickup_date;
+"pickup_date"	"trip_count"
+"2025-11-01"	1465
+"2025-11-02"	1295
+"2025-11-03"	1642
+"2025-11-04"	1470
+"2025-11-05"	1804
+"2025-11-06"	1862
+"2025-11-07"	1645
+"2025-11-08"	1398
+"2025-11-09"	1228
+"2025-11-10"	1729
+"2025-11-11"	1590
+"2025-11-12"	1686
+"2025-11-13"	1821
+"2025-11-14"	1726
+"2025-11-15"	1431
+"2025-11-16"	1391
+"2025-11-17"	1764
+"2025-11-18"	1773
+"2025-11-19"	1810
+"2025-11-20"	1932
+"2025-11-21"	1810
+"2025-11-22"	1330
+"2025-11-23"	1280
+"2025-11-24"	1724
+"2025-11-25"	1861
+"2025-11-26"	1506
+"2025-11-27"	1035
+"2025-11-28"	1178
+"2025-11-29"	1307
+"2025-11-30"	1398
+
+
+
+-- check count of trips which had a `trip_distance` of less than or equal to 1 mile
+SELECT COUNT(*) AS trip_count
+FROM green_taxi_trips
+WHERE lpep_pickup_datetime >= '2025-11-01 00:00:00'
+      AND lpep_pickup_datetime < '2025-12-01 00:00:00'
+      AND trip_distance <=1.0;
+"trip_count"
+8007
+```
+
+* Answer: 8,007 trips
+
+
 
 
 ## Question 4. Longest trip for each day
@@ -159,6 +226,26 @@ Use the pick up time for your calculations.
 - 2025-11-23
 - 2025-11-25
 
+```sql
+-- date with longest trip distance
+WITH max_dist AS (
+SELECT MAX(trip_distance) as max_trip_distance
+FROM green_taxi_trips
+WHERE trip_distance <100
+)
+
+SELECT DATE(lpep_pickup_datetime) AS pickup_date,
+trip_distance
+FROM green_taxi_trips
+WHERE trip_distance = (SELECT max_trip_distance FROM max_dist);
+"pickup_date"	"trip_distance"
+"2025-11-14"	88.03
+```
+
+* Answer: 2025-11-14
+
+
+
 
 ## Question 5. Biggest pickup zone
 
@@ -169,10 +256,73 @@ Which was the pickup zone with the largest `total_amount` (sum of all trips) on 
 - Morningside Heights
 - Forest Hills
 
+```sql
+-- taxi_zone_lookup
+SELECT *
+FROM taxi_zone_lookup
+LIMIT 10;
+"LocationID"	"Borough"	"Zone"	"service_zone"
+1	"EWR"	"Newark Airport"	"EWR"
+2	"Queens"	"Jamaica Bay"	"Boro Zone"
+3	"Bronx"	"Allerton/Pelham Gardens"	"Boro Zone"
+4	"Manhattan"	"Alphabet City"	"Yellow Zone"
+5	"Staten Island"	"Arden Heights"	"Boro Zone"
+6	"Staten Island"	"Arrochar/Fort Wadsworth"	"Boro Zone"
+7	"Queens"	"Astoria"	"Boro Zone"
+8	"Queens"	"Astoria Park"	"Boro Zone"
+9	"Queens"	"Auburndale"	"Boro Zone"
+10	"Queens"	"Baisley Park"	"Boro Zone"
+
+
+
+
+-- pickup zone `PULocationID` with highest total_amount on 18 November 2025
+-- REMEMBER TO USE quotes around "CaseSensitive" COLNAMES
+--    if they were UPPERCASE OR CaseSensitive when defining the table schema
+--    otw postgrs will convert to lowercase
+WITH max_amount AS (
+SELECT MAX(total_amount) as max_total_amount
+FROM green_taxi_trips
+WHERE DATE(lpep_pickup_datetime) = '2025-11-18'
+)
+
+SELECT taxi_zone_lookup.*,
+       green_taxi_trips.total_amount
+FROM green_taxi_trips
+JOIN taxi_zone_lookup ON green_taxi_trips."PULocationID" = taxi_zone_lookup."LocationID"
+WHERE green_taxi_trips.total_amount = (SELECT max_total_amount FROM max_amount);
+"LocationID"	"Borough"	"Zone"	"service_zone"	"total_amount"
+92	"Queens"	"Flushing"	"Boro Zone"	351
+92	"Queens"	"Flushing"	"Boro Zone"	351
+-- not sure why the pick up zone is not in the 4 options available
+
+
+
+-- if we see above, there seems to be 2 records with the MAX(total_amount) on the same date
+--    SO MAYBE WE NEED TO SUM ALL the `total_amount`
+--    instead of `total_amount` already being the SUM (which was my assumption above)
+SELECT 
+    taxi_zone_lookup."Zone",
+    SUM(green_taxi_trips.total_amount) as total_zone_amount
+FROM green_taxi_trips
+JOIN taxi_zone_lookup ON green_taxi_trips."PULocationID" = taxi_zone_lookup."LocationID"
+WHERE DATE(green_taxi_trips.lpep_pickup_datetime) = '2025-11-18'
+GROUP BY taxi_zone_lookup."Zone"
+ORDER BY total_zone_amount DESC
+LIMIT 1;
+"Zone"	"total_zone_amount"
+"East Harlem North"	9281.919999999991
+```
+* Answer: East Harlem North
+
+
+
+
+
 
 ## Question 6. Largest tip
 
-For the passengers picked up in the zone named "East Harlem North" in November 2025, which was the drop off zone that had the largest tip?
+For the passengers picked up in the zone named "East Harlem North" in November 2025, which was the drop off zone that had the **largest tip**?
 
 Note: it's `tip` , not `trip`. We need the name of the zone, not the ID.
 
@@ -180,6 +330,57 @@ Note: it's `tip` , not `trip`. We need the name of the zone, not the ID.
 - Yorkville West
 - East Harlem North
 - LaGuardia Airport
+
+```sql
+SELECT *
+FROM taxi_zone_lookup
+WHERE "Zone" = 'East Harlem North';
+"LocationID"	"Borough"	"Zone"	"service_zone"
+74	"Manhattan"	"East Harlem North"	"Boro Zone"
+
+
+
+SELECT 
+    taxi_zone_lookup."Zone" as drop_off_zone,
+    SUM(green_taxi_trips.tip_amount) as total_zone_tip
+FROM green_taxi_trips
+JOIN taxi_zone_lookup ON green_taxi_trips."DOLocationID" = taxi_zone_lookup."LocationID"
+WHERE lpep_pickup_datetime >= '2025-11-01 00:00:00'
+      AND lpep_pickup_datetime < '2025-12-01 00:00:00'
+      AND taxi_zone_lookup."Zone" = 'East Harlem North'
+GROUP BY drop_off_zone
+ORDER BY total_zone_tip DESC
+LIMIT 10;
+"drop_off_zone"	"total_zone_tip"
+"East Harlem North"	2978.3300000000017
+
+
+SELECT 
+    taxi_zone_lookup."Zone" as drop_off_zone,
+    tip_amount
+FROM green_taxi_trips
+JOIN taxi_zone_lookup ON green_taxi_trips."DOLocationID" = taxi_zone_lookup."LocationID"
+WHERE lpep_pickup_datetime >= '2025-11-01 00:00:00'
+      AND lpep_pickup_datetime < '2025-12-01 00:00:00'
+      AND taxi_zone_lookup."Zone" = 'East Harlem North'
+ORDER BY tip_amount DESC
+LIMIT 10;
+"drop_off_zone"	"tip_amount"
+"East Harlem North"	45
+"East Harlem North"	40
+"East Harlem North"	26
+"East Harlem North"	18
+"East Harlem North"	16
+"East Harlem North"	12.5
+"East Harlem North"	11.25
+"East Harlem North"	10.55
+"East Harlem North"	8.54
+"East Harlem North"	7.86
+```
+
+* Answer: East Harlem North
+
+
 
 
 ## Terraform
