@@ -47,7 +47,7 @@ For this course, we'll use a free version (upto EUR 300 credits).
 ### Terraform Workshop to create GCP Infra
 Continue [here](./terraform): `week_1_basics_n_setup/1_terraform_gcp/terraform`
 
-# 2026.01.20 Kai - Use Terraform to deploy GCP resources, then delete resources
+# 2026.01.20 Kai - Use Terraform (WITHOUT VARIABLES) to deploy GCP resources, then delete resources
 * Complete `01-docker-terraform\terraform\terraform\terraform_basic\main.tf` following video tutorial
 * Place IAM service account key in `01-docker-terraform\terraform\terraform\proud-outrider-483901-c3-2f890d3d3b86.json`
 * install terraform
@@ -579,3 +579,329 @@ google_storage_bucket.data-lake-bucket: Destruction complete after 2s
 
 Destroy complete! Resources: 2 destroyed.
 ```
+
+
+
+
+# 2026.01.20 Kai - Use Terraform (WITH VARIABLES) to deploy GCP resources, then delete resources
+```bash
+cd 01-docker-terraform/terraform/terraform/terraform_with_variables
+# or
+@kaiquanmah0 ➜ .../01-docker-terraform/terraform/terraform/terraform_basic (main) $ cd ../terraform_with_variables/
+
+
+
+
+
+
+
+
+
+
+@kaiquanmah0 ➜ .../01-docker-terraform/terraform/terraform/terraform_with_variables (main) $ terraform init
+Initializing the backend...
+Initializing provider plugins...
+- Finding hashicorp/google versions matching "5.6.0"...
+- Installing hashicorp/google v5.6.0...
+- Installed hashicorp/google v5.6.0 (signed by HashiCorp)
+Terraform has created a lock file .terraform.lock.hcl to record the provider
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when
+you run "terraform init" in the future.
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+
+
+
+
+
+
+
+
+
+
+@kaiquanmah0 ➜ .../01-docker-terraform/terraform/terraform/terraform_with_variables (main) $ terraform plan
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # google_bigquery_dataset.demo_dataset will be created
+  + resource "google_bigquery_dataset" "demo_dataset" {
+      + creation_time              = (known after apply)
+      + dataset_id                 = "demo_dataset"
+      + default_collation          = (known after apply)
+      + delete_contents_on_destroy = false
+      + effective_labels           = (known after apply)
+      + etag                       = (known after apply)
+      + id                         = (known after apply)
+      + is_case_insensitive        = (known after apply)
+      + last_modified_time         = (known after apply)
+      + location                   = "US"
+      + max_time_travel_hours      = (known after apply)
+      + project                    = "proud-outrider-483901-c3"
+      + self_link                  = (known after apply)
+      + storage_billing_model      = (known after apply)
+      + terraform_labels           = (known after apply)
+
+      + access (known after apply)
+    }
+
+  # google_storage_bucket.demo_bucket will be created
+  + resource "google_storage_bucket" "demo_bucket" {
+      + effective_labels            = (known after apply)
+      + force_destroy               = true
+      + id                          = (known after apply)
+      + location                    = "US"
+      + name                        = "terraform-demo_terra_bucket"
+      + project                     = (known after apply)
+      + public_access_prevention    = (known after apply)
+      + self_link                   = (known after apply)
+      + storage_class               = "STANDARD"
+      + terraform_labels            = (known after apply)
+      + uniform_bucket_level_access = (known after apply)
+      + url                         = (known after apply)
+
+      + lifecycle_rule {
+          + action {
+              + type          = "AbortIncompleteMultipartUpload"
+                # (1 unchanged attribute hidden)
+            }
+          + condition {
+              + age                    = 1
+              + matches_prefix         = []
+              + matches_storage_class  = []
+              + matches_suffix         = []
+              + with_state             = (known after apply)
+                # (3 unchanged attributes hidden)
+            }
+        }
+
+      + versioning (known after apply)
+
+      + website (known after apply)
+    }
+
+Plan: 2 to add, 0 to change, 0 to destroy.
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you run "terraform apply" now.
+
+
+
+
+
+
+
+
+
+
+
+
+@kaiquanmah0 ➜ .../01-docker-terraform/terraform/terraform/terraform_with_variables (main) $ terraform apply
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # google_bigquery_dataset.demo_dataset will be created
+  + resource "google_bigquery_dataset" "demo_dataset" {
+      + creation_time              = (known after apply)
+      + dataset_id                 = "demo_dataset"
+      + default_collation          = (known after apply)
+      + delete_contents_on_destroy = false
+      + effective_labels           = (known after apply)
+      + etag                       = (known after apply)
+      + id                         = (known after apply)
+      + is_case_insensitive        = (known after apply)
+      + last_modified_time         = (known after apply)
+      + location                   = "US"
+      + max_time_travel_hours      = (known after apply)
+      + project                    = "proud-outrider-483901-c3"
+      + self_link                  = (known after apply)
+      + storage_billing_model      = (known after apply)
+      + terraform_labels           = (known after apply)
+
+      + access (known after apply)
+    }
+
+  # google_storage_bucket.demo_bucket will be created
+  + resource "google_storage_bucket" "demo_bucket" {
+      + effective_labels            = (known after apply)
+      + force_destroy               = true
+      + id                          = (known after apply)
+      + location                    = "US"
+      + name                        = "terraform-demo_terra_bucket"
+      + project                     = (known after apply)
+      + public_access_prevention    = (known after apply)
+      + self_link                   = (known after apply)
+      + storage_class               = "STANDARD"
+      + terraform_labels            = (known after apply)
+      + uniform_bucket_level_access = (known after apply)
+      + url                         = (known after apply)
+
+      + lifecycle_rule {
+          + action {
+              + type          = "AbortIncompleteMultipartUpload"
+                # (1 unchanged attribute hidden)
+            }
+          + condition {
+              + age                    = 1
+              + matches_prefix         = []
+              + matches_storage_class  = []
+              + matches_suffix         = []
+              + with_state             = (known after apply)
+                # (3 unchanged attributes hidden)
+            }
+        }
+
+      + versioning (known after apply)
+
+      + website (known after apply)
+    }
+
+Plan: 2 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+google_bigquery_dataset.demo_dataset: Creating...
+google_storage_bucket.demo_bucket: Creating...
+google_bigquery_dataset.demo_dataset: Creation complete after 2s [id=projects/proud-outrider-483901-c3/datasets/demo_dataset]
+google_storage_bucket.demo_bucket: Creation complete after 2s [id=terraform-demo_terra_bucket]
+
+Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
+
+
+
+
+
+
+
+
+
+
+
+
+
+@kaiquanmah0 ➜ .../01-docker-terraform/terraform/terraform/terraform_with_variables (main) $ terraform destroy
+google_storage_bucket.demo_bucket: Refreshing state... [id=terraform-demo_terra_bucket]
+google_bigquery_dataset.demo_dataset: Refreshing state... [id=projects/proud-outrider-483901-c3/datasets/demo_dataset]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # google_bigquery_dataset.demo_dataset will be destroyed
+  - resource "google_bigquery_dataset" "demo_dataset" {
+      - creation_time                   = 1768897110991 -> null
+      - dataset_id                      = "demo_dataset" -> null
+      - default_partition_expiration_ms = 0 -> null
+      - default_table_expiration_ms     = 0 -> null
+      - delete_contents_on_destroy      = false -> null
+      - effective_labels                = {} -> null
+      - etag                            = "lrD+C93jSlsXGXvpd8n5Iw==" -> null
+      - id                              = "projects/proud-outrider-483901-c3/datasets/demo_dataset" -> null
+      - is_case_insensitive             = false -> null
+      - labels                          = {} -> null
+      - last_modified_time              = 1768897110991 -> null
+      - location                        = "US" -> null
+      - max_time_travel_hours           = "168" -> null
+      - project                         = "proud-outrider-483901-c3" -> null
+      - self_link                       = "https://bigquery.googleapis.com/bigquery/v2/projects/proud-outrider-483901-c3/datasets/demo_dataset" -> null
+      - terraform_labels                = {} -> null
+        # (4 unchanged attributes hidden)
+
+      - access {
+          - role           = "OWNER" -> null
+          - user_by_email  = "terraform-runner@proud-outrider-483901-c3.iam.gserviceaccount.com" -> null
+            # (4 unchanged attributes hidden)
+        }
+      - access {
+          - role           = "OWNER" -> null
+          - special_group  = "projectOwners" -> null
+            # (4 unchanged attributes hidden)
+        }
+      - access {
+          - role           = "READER" -> null
+          - special_group  = "projectReaders" -> null
+            # (4 unchanged attributes hidden)
+        }
+      - access {
+          - role           = "WRITER" -> null
+          - special_group  = "projectWriters" -> null
+            # (4 unchanged attributes hidden)
+        }
+    }
+
+  # google_storage_bucket.demo_bucket will be destroyed
+  - resource "google_storage_bucket" "demo_bucket" {
+      - default_event_based_hold    = false -> null
+      - effective_labels            = {} -> null
+      - enable_object_retention     = false -> null
+      - force_destroy               = true -> null
+      - id                          = "terraform-demo_terra_bucket" -> null
+      - labels                      = {} -> null
+      - location                    = "US" -> null
+      - name                        = "terraform-demo_terra_bucket" -> null
+      - project                     = "proud-outrider-483901-c3" -> null
+      - public_access_prevention    = "inherited" -> null
+      - requester_pays              = false -> null
+      - self_link                   = "https://www.googleapis.com/storage/v1/b/terraform-demo_terra_bucket" -> null
+      - storage_class               = "STANDARD" -> null
+      - terraform_labels            = {} -> null
+      - uniform_bucket_level_access = false -> null
+      - url                         = "gs://terraform-demo_terra_bucket" -> null
+
+      - lifecycle_rule {
+          - action {
+              - type          = "AbortIncompleteMultipartUpload" -> null
+                # (1 unchanged attribute hidden)
+            }
+          - condition {
+              - age                        = 1 -> null
+              - days_since_custom_time     = 0 -> null
+              - days_since_noncurrent_time = 0 -> null
+              - matches_prefix             = [] -> null
+              - matches_storage_class      = [] -> null
+              - matches_suffix             = [] -> null
+              - num_newer_versions         = 0 -> null
+              - with_state                 = "ANY" -> null
+                # (3 unchanged attributes hidden)
+            }
+        }
+    }
+
+Plan: 0 to add, 0 to change, 2 to destroy.
+
+Do you really want to destroy all resources?
+  Terraform will destroy all your managed infrastructure, as shown above.
+  There is no undo. Only 'yes' will be accepted to confirm.
+
+  Enter a value: yes
+
+google_storage_bucket.demo_bucket: Destroying... [id=terraform-demo_terra_bucket]
+google_bigquery_dataset.demo_dataset: Destroying... [id=projects/proud-outrider-483901-c3/datasets/demo_dataset]
+google_bigquery_dataset.demo_dataset: Destruction complete after 0s
+google_storage_bucket.demo_bucket: Destruction complete after 1s
+
+Destroy complete! Resources: 2 destroyed.
+
+
+```
+
