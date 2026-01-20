@@ -105,9 +105,11 @@ services:
     ports:
       - "8080:8080"
       - "8081:8081"
+    # TELL KESTRA TO WAIT FOR HEALTHY STATUS
     depends_on:
       kestra_postgres:
-        condition: service_started
+        condition: service_healthy  # <-- CHANGED from service_started
+    restart: unless-stopped  # <-- ADD THIS for auto-restart when container fails
     networks:
       - pg-network  # <-- Reuse existing network
 

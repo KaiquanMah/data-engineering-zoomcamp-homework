@@ -86,13 +86,305 @@ We'll set up Kestra using Docker Compose containing **one container for the Kest
 ```bash
 cd 02-workflow-orchestration
 docker compose up -d
+
+
+
+
+
+@kaiquanmah0 ➜ /workspaces/data-engineering-zoomcamp-homework/02-workflow-orchestration (main) $ docker compose up -d
+[+] Running 10/10
+ ✔ kestra Pulled                                                                                                                                                 125.5s 
+   ✔ 7e49dc6156b0 Pull complete                                                                                                                                    2.9s 
+   ✔ e10875650961 Pull complete                                                                                                                                   46.4s 
+   ✔ 4be944c6b743 Pull complete                                                                                                                                   50.1s 
+   ✔ 82f0f6707dd1 Pull complete                                                                                                                                   50.1s 
+   ✔ 55135a7213f6 Pull complete                                                                                                                                   50.1s 
+   ✔ 4cdfe544c17b Pull complete                                                                                                                                   50.2s 
+   ✔ 8ec52ec379f1 Pull complete                                                                                                                                   50.2s 
+   ✔ 1b46c0f9cff8 Pull complete                                                                                                                                   52.8s 
+   ✔ a6d5882add6c Pull complete                                                                                                                                  121.6s 
+[+] Running 7/7
+ ✔ Volume 02-workflow-orchestration_kestra_postgres_data   Created                                                                                                 0.0s 
+ ✔ Volume 02-workflow-orchestration_kestra_data            Created                                                                                                 0.0s 
+ ✔ Volume 02-workflow-orchestration_ny_taxi_postgres_data  Created                                                                                                 0.0s 
+
+
+ ✔ Container 02-workflow-orchestration-pgdatabase-1        Started                                                                                                 1.7s 
+ ✔ Container 02-workflow-orchestration-kestra_postgres-1   Started                                                                                                 1.7s 
+ ✔ Container 02-workflow-orchestration-pgadmin-1           Started                                                                                                 1.6s 
+ ✔ Container 02-workflow-orchestration-kestra-1            Started    
 ```
 
 **Note:** Check that `pgAdmin` isn't running on the same ports as Kestra. If so, check out the [FAQ](#troubleshooting-tips) at the bottom of the README.
 
 Once the container starts, you can access the Kestra UI at [http://localhost:8080](http://localhost:8080).
+* Issue accessing port 8080 in GitHub codespace
+```bash
+i am using github codespace.
+i ran docker compose up -d.
+then made 8080 and 8085 public.
+i can access and login to https://expert-waddle-v6w4g64w564wc7wv-8085.app.github.dev/browser/ successfully.
 
-To shut down Kestra, go to the same directory and run the following command:
+BUT
+https://expert-waddle-v6w4g64w564wc7wv-8080.app.github.dev/
+This page isn’t working right now
+expert-waddle-v6w4g64w564wc7wv-8080.app.github.dev can't currently handle this request.
+HTTP ERROR 502
+```
+* Troubleshoot
+```bash
+@kaiquanmah0 ➜ /workspaces/data-engineering-zoomcamp-homework/02-workflow-orchestration (main) $ docker compose ps
+NAME                                          IMAGE                COMMAND                  SERVICE           CREATED         STATUS                   PORTS
+02-workflow-orchestration-kestra-1            kestra/kestra:v1.1   "docker-entrypoint.s…"   kestra            6 minutes ago   Up 6 minutes             0.0.0.0:8080-8081->8080-8081/tcp, [::]:8080-8081->8080-8081/tcp
+02-workflow-orchestration-kestra_postgres-1   postgres:18          "docker-entrypoint.s…"   kestra_postgres   6 minutes ago   Up 6 minutes (healthy)   5432/tcp
+02-workflow-orchestration-pgadmin-1           dpage/pgadmin4       "/entrypoint.sh"         pgadmin           6 minutes ago   Up 6 minutes             443/tcp, 0.0.0.0:8085->80/tcp, [::]:8085->80/tcp
+02-workflow-orchestration-pgdatabase-1        postgres:18          "docker-entrypoint.s…"   pgdatabase        6 minutes ago   Up 6 minutes             0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+
+
+@kaiquanmah0 ➜ /workspaces/data-engineering-zoomcamp-homework/02-workflow-orchestration (main) $ docker network ls | grep pg-network
+a4dabf2880a5   pg-network   bridge    local
+
+
+
+
+
+@kaiquanmah0 ➜ /workspaces/data-engineering-zoomcamp-homework/02-workflow-orchestration (main) $ echo -e "\n=== Kestra Postgres Logs ==="
+docker compose logs kestra_postgres --tail 10
+
+=== Kestra Postgres Logs ===
+kestra_postgres-1  | PostgreSQL init process complete; ready for start up.
+kestra_postgres-1  | 
+kestra_postgres-1  | 2026-01-20 14:08:20.977 UTC [1] LOG:  starting PostgreSQL 18.1 (Debian 18.1-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit
+kestra_postgres-1  | 2026-01-20 14:08:20.978 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+kestra_postgres-1  | 2026-01-20 14:08:20.978 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+kestra_postgres-1  | 2026-01-20 14:08:20.980 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+kestra_postgres-1  | 2026-01-20 14:08:20.986 UTC [72] LOG:  database system was shut down at 2026-01-20 14:08:20 UTC
+kestra_postgres-1  | 2026-01-20 14:08:20.991 UTC [1] LOG:  database system is ready to accept connections
+kestra_postgres-1  | 2026-01-20 14:13:21.071 UTC [70] LOG:  checkpoint starting: time
+kestra_postgres-1  | 2026-01-20 14:13:24.696 UTC [70] LOG:  checkpoint complete: wrote 36 buffers (0.2%), wrote 3 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=3.608 s, sync=0.012 s, total=3.626 s; sync files=12, longest=0.010 s, average=0.001 s; distance=248 kB, estimate=248 kB; lsn=0/1BDDCB8, redo lsn=0/1BDDC60
+
+
+
+
+
+@kaiquanmah0 ➜ /workspaces/data-engineering-zoomcamp-homework/02-workflow-orchestration (main) $ echo -e "\n=== Kestra Logs (last 30 lines) ==="
+
+=== Kestra Logs (last 30 lines) ===
+@kaiquanmah0 ➜ /workspaces/data-engineering-zoomcamp-homework/02-workflow-orchestration (main) $ docker compose logs kestra --tail 60
+kestra-1  | Exception in thread "main" io.micronaut.context.exceptions.BeanInstantiationException: Bean definition [javax.sql.DataSource] could not be loaded: Error instantiating bean of type  [javax.sql.DataSource]
+kestra-1  | 
+kestra-1  | Message: Failed to initialize pool: Connection to kestra_postgres:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+kestra-1  | Path Taken:
+kestra-1  | @i.m.c.a.Context j.s.DataSource i.m.c.j.h.DatasourceFactory.dataSource#dataSource(DatasourceConfiguration datasourceConfiguration)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.initializeContext(DefaultBeanContext.java:2040)
+kestra-1  |     at io.micronaut.context.DefaultApplicationContext.initializeContext(DefaultApplicationContext.java:323)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.configureAndStartContext(DefaultBeanContext.java:3350)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.start(DefaultBeanContext.java:353)
+kestra-1  |     at io.micronaut.context.DefaultApplicationContext.start(DefaultApplicationContext.java:225)
+kestra-1  |     at io.micronaut.configuration.picocli.MicronautFactory.<init>(MicronautFactory.java:59)
+kestra-1  |     at io.kestra.cli.App.execute(App.java:71)
+kestra-1  |     at io.kestra.cli.App.main(App.java:52)
+kestra-1  | Caused by: io.micronaut.context.exceptions.BeanInstantiationException: Error instantiating bean of type  [javax.sql.DataSource]
+kestra-1  | 
+kestra-1  | Message: Failed to initialize pool: Connection to kestra_postgres:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+kestra-1  | Path Taken:
+kestra-1  | @i.m.c.a.Context j.s.DataSource i.m.c.j.h.DatasourceFactory.dataSource#dataSource(DatasourceConfiguration datasourceConfiguration)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.resolveByBeanFactory(DefaultBeanContext.java:2352)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.createRegistration(DefaultBeanContext.java:3150)
+kestra-1  |     at io.micronaut.context.SingletonScope.getOrCreate(SingletonScope.java:80)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.intializeEagerBean(DefaultBeanContext.java:3039)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.initializeEagerBean(DefaultBeanContext.java:2699)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.initializeContext(DefaultBeanContext.java:2034)
+kestra-1  |     ... 7 more
+kestra-1  | Caused by: com.zaxxer.hikari.pool.HikariPool$PoolInitializationException: Failed to initialize pool: Connection to kestra_postgres:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+kestra-1  |     at com.zaxxer.hikari.pool.HikariPool.throwPoolInitializationException(HikariPool.java:610)
+kestra-1  |     at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:597)
+kestra-1  |     at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:97)
+kestra-1  |     at com.zaxxer.hikari.HikariDataSource.<init>(HikariDataSource.java:80)
+kestra-1  |     at io.micronaut.configuration.jdbc.hikari.HikariUrlDataSource.<init>(HikariUrlDataSource.java:35)
+kestra-1  |     at io.micronaut.configuration.jdbc.hikari.DatasourceFactory.dataSource(DatasourceFactory.java:68)
+kestra-1  |     at io.micronaut.configuration.jdbc.hikari.$DatasourceFactory$DataSource0$Definition.instantiate(Unknown Source)
+kestra-1  |     at io.micronaut.context.BeanDefinitionDelegate.instantiate(BeanDefinitionDelegate.java:183)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.resolveByBeanFactory(DefaultBeanContext.java:2337)
+kestra-1  |     ... 12 more
+kestra-1  | Caused by: org.postgresql.util.PSQLException: Connection to kestra_postgres:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+kestra-1  |     at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:373)
+kestra-1  |     at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:57)
+kestra-1  |     at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:279)
+kestra-1  |     at org.postgresql.Driver.makeConnection(Driver.java:448)
+kestra-1  |     at org.postgresql.Driver.connect(Driver.java:298)
+kestra-1  |     at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:144)
+kestra-1  |     at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:370)
+kestra-1  |     at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:207)
+kestra-1  |     at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:488)
+kestra-1  |     at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:576)
+kestra-1  |     ... 19 more
+kestra-1  | Caused by: java.net.ConnectException: Connection refused
+kestra-1  |     at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+kestra-1  |     at java.base/sun.nio.ch.Net.pollConnectNow(Unknown Source)
+kestra-1  |     at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(Unknown Source)
+kestra-1  |     at java.base/sun.nio.ch.NioSocketImpl.connect(Unknown Source)
+kestra-1  |     at java.base/java.net.SocksSocketImpl.connect(Unknown Source)
+kestra-1  |     at java.base/java.net.Socket.connect(Unknown Source)
+kestra-1  |     at org.postgresql.core.PGStream.createSocket(PGStream.java:261)
+kestra-1  |     at org.postgresql.core.PGStream.<init>(PGStream.java:122)
+kestra-1  |     at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:146)
+kestra-1  |     at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:289)
+kestra-1  |     ... 28 more
+
+
+
+
+
+
+
+
+
+
+
+
+@kaiquanmah0 ➜ /workspaces/data-engineering-zoomcamp-homework/02-workflow-orchestration (main) $ docker compose logs kestra --tail 60
+kestra-1  | Exception in thread "main" io.micronaut.context.exceptions.BeanInstantiationException: Bean definition [javax.sql.DataSource] could not be loaded: Error instantiating bean of type  [javax.sql.DataSource]
+kestra-1  | 
+kestra-1  | Message: Failed to initialize pool: Connection to kestra_postgres:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+kestra-1  | Path Taken:
+kestra-1  | @i.m.c.a.Context j.s.DataSource i.m.c.j.h.DatasourceFactory.dataSource#dataSource(DatasourceConfiguration datasourceConfiguration)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.initializeContext(DefaultBeanContext.java:2040)
+kestra-1  |     at io.micronaut.context.DefaultApplicationContext.initializeContext(DefaultApplicationContext.java:323)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.configureAndStartContext(DefaultBeanContext.java:3350)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.start(DefaultBeanContext.java:353)
+kestra-1  |     at io.micronaut.context.DefaultApplicationContext.start(DefaultApplicationContext.java:225)
+kestra-1  |     at io.micronaut.configuration.picocli.MicronautFactory.<init>(MicronautFactory.java:59)
+kestra-1  |     at io.kestra.cli.App.execute(App.java:71)
+kestra-1  |     at io.kestra.cli.App.main(App.java:52)
+kestra-1  | Caused by: io.micronaut.context.exceptions.BeanInstantiationException: Error instantiating bean of type  [javax.sql.DataSource]
+kestra-1  | 
+kestra-1  | Message: Failed to initialize pool: Connection to kestra_postgres:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+kestra-1  | Path Taken:
+kestra-1  | @i.m.c.a.Context j.s.DataSource i.m.c.j.h.DatasourceFactory.dataSource#dataSource(DatasourceConfiguration datasourceConfiguration)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.resolveByBeanFactory(DefaultBeanContext.java:2352)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.createRegistration(DefaultBeanContext.java:3150)
+kestra-1  |     at io.micronaut.context.SingletonScope.getOrCreate(SingletonScope.java:80)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.intializeEagerBean(DefaultBeanContext.java:3039)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.initializeEagerBean(DefaultBeanContext.java:2699)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.initializeContext(DefaultBeanContext.java:2034)
+kestra-1  |     ... 7 more
+kestra-1  | Caused by: com.zaxxer.hikari.pool.HikariPool$PoolInitializationException: Failed to initialize pool: Connection to kestra_postgres:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+kestra-1  |     at com.zaxxer.hikari.pool.HikariPool.throwPoolInitializationException(HikariPool.java:610)
+kestra-1  |     at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:597)
+kestra-1  |     at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:97)
+kestra-1  |     at com.zaxxer.hikari.HikariDataSource.<init>(HikariDataSource.java:80)
+kestra-1  |     at io.micronaut.configuration.jdbc.hikari.HikariUrlDataSource.<init>(HikariUrlDataSource.java:35)
+kestra-1  |     at io.micronaut.configuration.jdbc.hikari.DatasourceFactory.dataSource(DatasourceFactory.java:68)
+kestra-1  |     at io.micronaut.configuration.jdbc.hikari.$DatasourceFactory$DataSource0$Definition.instantiate(Unknown Source)
+kestra-1  |     at io.micronaut.context.BeanDefinitionDelegate.instantiate(BeanDefinitionDelegate.java:183)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.resolveByBeanFactory(DefaultBeanContext.java:2337)
+kestra-1  |     ... 12 more
+kestra-1  | Caused by: org.postgresql.util.PSQLException: Connection to kestra_postgres:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+kestra-1  |     at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:373)
+kestra-1  |     at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:57)
+kestra-1  |     at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:279)
+kestra-1  |     at org.postgresql.Driver.makeConnection(Driver.java:448)
+kestra-1  |     at org.postgresql.Driver.connect(Driver.java:298)
+kestra-1  |     at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:144)
+kestra-1  |     at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:370)
+kestra-1  |     at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:207)
+kestra-1  |     at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:488)
+kestra-1  |     at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:576)
+kestra-1  |     ... 19 more
+kestra-1  | Caused by: java.net.ConnectException: Connection refused
+kestra-1  |     at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+kestra-1  |     at java.base/sun.nio.ch.Net.pollConnectNow(Unknown Source)
+kestra-1  |     at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(Unknown Source)
+kestra-1  |     at java.base/sun.nio.ch.NioSocketImpl.connect(Unknown Source)
+kestra-1  |     at java.base/java.net.SocksSocketImpl.connect(Unknown Source)
+kestra-1  |     at java.base/java.net.Socket.connect(Unknown Source)
+kestra-1  |     at org.postgresql.core.PGStream.createSocket(PGStream.java:261)
+kestra-1  |     at org.postgresql.core.PGStream.<init>(PGStream.java:122)
+kestra-1  |     at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:146)
+kestra-1  |     at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:289)
+kestra-1  |     ... 28 more
+@kaiquanmah0 ➜ /workspaces/data-engineering-zoomcamp-homework/02-workflow-orchestration (main) $ docker compose logs -f kestra
+kestra-1  | 14:08:19.074 WARN  main         i.m.p.PrometheusMeterRegistry The meter (MeterId{name='netty.alloc.arena.allocation.count', tags=[tag(arena.number=0),tag(memory=direct),tag(size=small)]}) registration has failed: Prometheus requires that all meters with the same name have the same set of tag keys. There is already an existing meter named 'netty_alloc_arena_allocation_count' containing tag keys [arena_number, memory]. The meter you are attempting to register has keys [arena_number, memory, size]. Note that subsequent logs will be logged at debug level.
+kestra-1  | Exception in thread "main" io.micronaut.context.exceptions.BeanInstantiationException: Bean definition [javax.sql.DataSource] could not be loaded: Error instantiating bean of type  [javax.sql.DataSource]
+kestra-1  | 
+kestra-1  | Message: Failed to initialize pool: Connection to kestra_postgres:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+kestra-1  | Path Taken:
+kestra-1  | @i.m.c.a.Context j.s.DataSource i.m.c.j.h.DatasourceFactory.dataSource#dataSource(DatasourceConfiguration datasourceConfiguration)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.initializeContext(DefaultBeanContext.java:2040)
+kestra-1  |     at io.micronaut.context.DefaultApplicationContext.initializeContext(DefaultApplicationContext.java:323)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.configureAndStartContext(DefaultBeanContext.java:3350)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.start(DefaultBeanContext.java:353)
+kestra-1  |     at io.micronaut.context.DefaultApplicationContext.start(DefaultApplicationContext.java:225)
+kestra-1  |     at io.micronaut.configuration.picocli.MicronautFactory.<init>(MicronautFactory.java:59)
+kestra-1  |     at io.kestra.cli.App.execute(App.java:71)
+kestra-1  |     at io.kestra.cli.App.main(App.java:52)
+kestra-1  | Caused by: io.micronaut.context.exceptions.BeanInstantiationException: Error instantiating bean of type  [javax.sql.DataSource]
+kestra-1  | 
+kestra-1  | Message: Failed to initialize pool: Connection to kestra_postgres:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+kestra-1  | Path Taken:
+kestra-1  | @i.m.c.a.Context j.s.DataSource i.m.c.j.h.DatasourceFactory.dataSource#dataSource(DatasourceConfiguration datasourceConfiguration)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.resolveByBeanFactory(DefaultBeanContext.java:2352)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.createRegistration(DefaultBeanContext.java:3150)
+kestra-1  |     at io.micronaut.context.SingletonScope.getOrCreate(SingletonScope.java:80)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.intializeEagerBean(DefaultBeanContext.java:3039)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.initializeEagerBean(DefaultBeanContext.java:2699)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.initializeContext(DefaultBeanContext.java:2034)
+kestra-1  |     ... 7 more
+kestra-1  | Caused by: com.zaxxer.hikari.pool.HikariPool$PoolInitializationException: Failed to initialize pool: Connection to kestra_postgres:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+kestra-1  |     at com.zaxxer.hikari.pool.HikariPool.throwPoolInitializationException(HikariPool.java:610)
+kestra-1  |     at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:597)
+kestra-1  |     at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:97)
+kestra-1  |     at com.zaxxer.hikari.HikariDataSource.<init>(HikariDataSource.java:80)
+kestra-1  |     at io.micronaut.configuration.jdbc.hikari.HikariUrlDataSource.<init>(HikariUrlDataSource.java:35)
+kestra-1  |     at io.micronaut.configuration.jdbc.hikari.DatasourceFactory.dataSource(DatasourceFactory.java:68)
+kestra-1  |     at io.micronaut.configuration.jdbc.hikari.$DatasourceFactory$DataSource0$Definition.instantiate(Unknown Source)
+kestra-1  |     at io.micronaut.context.BeanDefinitionDelegate.instantiate(BeanDefinitionDelegate.java:183)
+kestra-1  |     at io.micronaut.context.DefaultBeanContext.resolveByBeanFactory(DefaultBeanContext.java:2337)
+kestra-1  |     ... 12 more
+kestra-1  | Caused by: org.postgresql.util.PSQLException: Connection to kestra_postgres:5432 refused. Check that the hostname and port are correct and that the postmaster is accepting TCP/IP connections.
+kestra-1  |     at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:373)
+kestra-1  |     at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:57)
+kestra-1  |     at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:279)
+kestra-1  |     at org.postgresql.Driver.makeConnection(Driver.java:448)
+kestra-1  |     at org.postgresql.Driver.connect(Driver.java:298)
+kestra-1  |     at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:144)
+kestra-1  |     at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:370)
+kestra-1  |     at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:207)
+kestra-1  |     at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:488)
+kestra-1  |     at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:576)
+kestra-1  |     ... 19 more
+kestra-1  | Caused by: java.net.ConnectException: Connection refused
+kestra-1  |     at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+kestra-1  |     at java.base/sun.nio.ch.Net.pollConnectNow(Unknown Source)
+kestra-1  |     at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(Unknown Source)
+kestra-1  |     at java.base/sun.nio.ch.NioSocketImpl.connect(Unknown Source)
+kestra-1  |     at java.base/java.net.SocksSocketImpl.connect(Unknown Source)
+kestra-1  |     at java.base/java.net.Socket.connect(Unknown Source)
+kestra-1  |     at org.postgresql.core.PGStream.createSocket(PGStream.java:261)
+kestra-1  |     at org.postgresql.core.PGStream.<init>(PGStream.java:122)
+kestra-1  |     at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:146)
+kestra-1  |     at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:289)
+kestra-1  |     ... 28 more
+
+```
+* Root cause - Kestra started BEFORE kestra_postgres was ready to accept connections. Kestra crashed and never restarted.
+* Temporary solution - restart kestra service, then access port 8080 https://expert-waddle-v6w4g64w564wc7wv-8080.app.github.dev
+```bash
+docker compose restart kestra
+```
+* Permanent solution - Change `service_started` to `service_healthy` in `docker-compose.yml` > kestra service > 
+```yaml
+depends_on:
+      kestra_postgres:
+        condition: service_healthy
+```
+
+
+
+
+* To shut down Kestra, go to the same directory and run the following command:
 
 ```bash
 docker compose down
