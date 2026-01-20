@@ -466,3 +466,67 @@ Free course by @DataTalksClub: https://github.com/DataTalksClub/data-engineering
 ```
 
 
+### Useful PostgreSQL (psql / pgcli) Commands When Running Postgres in Docker
+-- Help & Navigation
+\?                     -- Show all available commands
+\h                     -- Show SQL syntax and help
+\q                     -- Quit psql / pgcli
+quit                   -- Quit pgcli
+\c database_name       -- Connect to a different database
+\conninfo              -- Show current connection info
+\l                     -- List all databases
+
+-- Schema & Object Inspection
+\dn                    -- List schemas
+\dt                    -- List tables
+\d table_name          -- Describe a table
+\d+ table_name         -- Detailed table info
+\dv                    -- List views
+\dm                    -- List materialized views
+\di                    -- List indexes
+\ds                    -- List sequences
+\df                    -- List functions
+\sf function_name      -- Show function definition
+\dx                    -- List extensions
+\db                    -- List tablespaces
+\dT                    -- List data types
+\dD                    -- List domains
+\dE                    -- List foreign tables
+\dF                    -- List text search configurations
+
+-- Roles & Permissions
+\du                    -- List roles
+\dp                    -- List table privileges
+\ddp                   -- List default privileges
+
+-- Query & Output Utilities
+\timing                -- Toggle query execution time
+\x                     -- Toggle expanded output
+\pset key value        -- Set output options
+\T format              -- Change table output format
+\o filename            -- Send query output to a file
+\pager command         -- Pipe output through a pager
+\log-file filename     -- Log query results to a file
+
+-- Data Import / Export
+\copy table_name TO 'file.csv' CSV HEADER
+\copy table_name FROM 'file.csv' CSV HEADER
+
+-- Working with Files & Shell
+\i filename.sql        -- Execute SQL from a file
+\e                    -- Open query in external editor
+\! command             -- Run a shell command
+
+-- Named Queries (pgcli)
+\n                     -- List or execute named queries
+\ns name query         -- Save a named query
+\np name               -- Print a named query
+\nd name               -- Delete a named query
+
+-- Misc
+\echo text             -- Print text to stdout
+\qecho text            -- Print text to query output
+\v on|off              -- Toggle verbose errors
+\watch 2               -- Re-run last query every 2 seconds
+\#                     -- Refresh auto-completion
+\refresh               -- Refresh auto-completion
