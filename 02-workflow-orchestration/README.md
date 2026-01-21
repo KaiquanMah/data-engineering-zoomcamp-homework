@@ -607,6 +607,12 @@ The flow code: [`05_postgres_taxi_scheduled.yaml`](flows/05_postgres_taxi_schedu
   [![Scheduling and Backfills](https://markdown-videos-api.jorgenkh.no/url?url=https%3A%2F%2Fyoutu.be%2F1pu_C_oOAMA)](https://youtu.be/1pu_C_oOAMA)
 ---
 
+#### 05_postgres_taxi_scheduled yaml Exploration
+Scheduled Time - Local vs VM
+![scheduled-time-local-vs-vm](images/5-scheduled-time-local-vs-vm.png)
+
+
+
 ## 2.4 ELT Pipelines in Kestra: Google Cloud Platform
 
 Now that you've learned how to build ETL pipelines locally using Postgres, we are ready to move to the cloud. In this section, we'll load the same Yellow and Green Taxi data to Google Cloud Platform (GCP) using: 
