@@ -244,17 +244,92 @@ Answer: `green_tripdata_2020-04.csv`
 - 18,324,219
 - 29,430,127
 
+```sql
+-- chk 1 sample record - that we are picking from the right filename
+SELECT *
+FROM `proud-outrider-483901-c3.zoomcamp.yellow_tripdata`
+WHERE filename like 'yellow_tripdata_2020-%.csv'
+LIMIT 1;
+[{
+  "unique_row_id": "Y7oyKqkRAWCxbX4cbs4nGA\u003d\u003d",
+  "filename": "yellow_tripdata_2020-04.csv",
+  "VendorID": "2",
+  "tpep_pickup_datetime": "2020-03-08 11:53:42.000000 UTC",
+  "tpep_dropoff_datetime": "2020-03-08 12:01:07.000000 UTC",
+  "passenger_count": "1",
+  "trip_distance": "1.44",
+  "RatecodeID": "1",
+  "store_and_fwd_flag": "N",
+  "PULocationID": "138",
+  "DOLocationID": "173",
+  "payment_type": "2",
+  "fare_amount": "7",
+  "extra": "0.5",
+  "mta_tax": "0.5",
+  "tip_amount": "0",
+  "tolls_amount": "0",
+  "improvement_surcharge": "0.3",
+  "total_amount": "8.3",
+  "congestion_surcharge": "0"
+}]
+
+
+
+
+
+-- count yellow taxi 2020 records
+SELECT COUNT(1) AS cnt
+FROM `proud-outrider-483901-c3.zoomcamp.yellow_tripdata`
+WHERE filename like 'yellow_tripdata_2020-%.csv';
+
+[{
+  "cnt": "24648499"
+}]
+
+-- count green taxi 2020 records
+SELECT COUNT(1) AS cnt
+FROM `proud-outrider-483901-c3.zoomcamp.green_tripdata`
+WHERE filename like 'green_tripdata_2020-%.csv';
+
+[{
+  "cnt": "1734051"
+}]
+
+
+
+-- count yellow taxi 2021 March records
+SELECT COUNT(1) AS cnt
+FROM `proud-outrider-483901-c3.zoomcamp.yellow_tripdata`
+WHERE filename like 'yellow_tripdata_2021-03.csv';
+
+[{
+  "cnt": "1925152"
+}]
+```
+* Answer - 24,648,499
+
+
+
+
 4) How many rows are there for the `Green` Taxi data for all CSV files in the year 2020?
 - 5,327,301
 - 936,199
 - 1,734,051
 - 1,342,034
 
+Answer - 1,734,051
+
+
+
 5) How many rows are there for the `Yellow` Taxi data for the March 2021 CSV file?
 - 1,428,092
 - 706,911
 - 1,925,152
 - 2,561,031
+
+Answer - 1,925,152
+
+
 
 6) How would you configure the timezone to New York in a Schedule trigger?
 - Add a `timezone` property set to `EST` in the `Schedule` trigger configuration  
