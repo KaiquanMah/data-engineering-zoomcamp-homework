@@ -504,6 +504,14 @@ In our example Python workflow, [`02_python.yaml`](flows/02_python.yaml), our co
 #### Resources
 - [How-to Guide: Python](https://go.kestra.io/de-zoomcamp/python)
 
+#### 02_python yaml Exploration
+Docker Container Download Count
+![download-count](images/2-download-count.png)
+
+Duration - less than 1 second, so it seems to be listed as 0s
+![duration](images/2-duration.png)
+
+
 
 ## 2.3 Hands-On Coding Project: Build Data Pipelines with Kestra
 
