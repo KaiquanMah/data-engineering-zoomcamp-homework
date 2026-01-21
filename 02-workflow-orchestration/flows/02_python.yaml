@@ -13,8 +13,13 @@ tasks:
       - requests
       - kestra
     script: |
+      import time
       from kestra import Kestra
       import requests
+      
+      # Start timing
+      start_time = time.time()
+
       def get_docker_image_downloads(image_name: str = "kestra/kestra"):
           """Queries the Docker Hub API to get the number of downloads for a specific Docker image."""
           url = f"https://hub.docker.com/v2/repositories/{image_name}/"
@@ -22,11 +27,19 @@ tasks:
           data = response.json()
           downloads = data.get('pull_count', 'Not available')
           return downloads
+
       downloads = get_docker_image_downloads()
       outputs = {
           'downloads': downloads
       }
+
       Kestra.outputs(outputs)
-      Kestra.metrics({
-          'duration': Kestra.metrics.duration()
-      })
+
+      
+      # Calculate duration
+      end_time = time.time()
+      duration = end_time - start_time
+      
+
+      # Send duration metric using the correct timer method
+      Kestra.timer('duration', duration)
