@@ -474,6 +474,21 @@ The flow [`01_hello_world.yaml`](flows/01_hello_world.yaml) showcases all of the
 - [Tutorial](https://go.kestra.io/de-zoomcamp/tutorial)
 - [Workflow Components Documentation](https://go.kestra.io/de-zoomcamp/workflow-components)
 
+
+#### Concurrency Limit Exploration
+Concurrency Limit of 2
+![Concurrency Limit](images/1-concurrency-limit-2.1.png)
+
+Executions
+![Executions](images/1-concurrency-limit-2.1.png)
+
+Workflow steps
+![Workflow steps](images/1-workflow-steps.png)
+
+Only 1 returned output
+![1-returned-output](images/1-1-returned-output.png)
+
+
 ### 2.2.3 - Orchestrate Python Code
 
 Now that we've built our first workflow, we can take it a step further by adding Python code into our flow. In Kestra, we can run Python code from a dedicated file or write it directly inside of our workflow.
