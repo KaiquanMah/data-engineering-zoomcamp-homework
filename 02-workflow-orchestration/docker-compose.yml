@@ -109,7 +109,8 @@ services:
     depends_on:
       kestra_postgres:
         condition: service_healthy  # <-- CHANGED from service_started
-    restart: unless-stopped  # <-- ADD THIS for auto-restart when container fails
+    # restart: unless-stopped  # <-- ADD THIS for auto-restart when container fails
+    restart: on-failure:5           # ← ADDED: Auto-restart up to 5 times on failure
     networks:
       - pg-network  # <-- Reuse existing network
 
