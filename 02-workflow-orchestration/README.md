@@ -723,6 +723,9 @@ The flow code: [`08_gcp_taxi.yaml`](flows/08_gcp_taxi.yaml).
 - **2.4.3 - Create an ELT Pipeline with GCS and BigQuery in Kestra**  
   [![Create an ELT Pipeline with GCS and BigQuery in Kestra](https://markdown-videos-api.jorgenkh.no/url?url=https%3A%2F%2Fyoutu.be%2F52u9X_bfTAo)](https://youtu.be/52u9X_bfTAo)
 
+
+
+
 ### 2.4.4 GCP Workflow: Schedule and Backfill Full Dataset
 
 We can now schedule the same pipeline shown above to run daily at 9 AM UTC for the green dataset and at 10 AM UTC for the yellow dataset. You can backfill historical data directly from the Kestra UI.
@@ -770,6 +773,11 @@ However, AI is only as good as the context we provide. This section teaches you 
   [![Using AI for Data Engineering](https://markdown-videos-api.jorgenkh.no/url?url=https%3A%2F%2Fyoutu.be%2FGHPtRDAv044)](https://youtu.be/GHPtRDAv044)
 
 ---
+
+#### 2026.01.21 Kai
+* Remember to add GEMINI_API_KEY to `kestra KV store` manually
+
+
 
 ### 2.5.2 Context Engineering with ChatGPT
 
