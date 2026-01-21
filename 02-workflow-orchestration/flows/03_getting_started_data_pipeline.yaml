@@ -17,8 +17,8 @@ tasks:
   - id: transform
     type: io.kestra.plugin.scripts.python.Script
     containerImage: python:3.11-alpine
-    inputFiles:
-      data.json: "{{outputs.extract.uri}}"
+    inputFiles:                               # from the above 'extract' task and its URI, we downloaded a JSON
+      data.json: "{{outputs.extract.uri}}"    # use that JSON as an input here
     outputFiles:
       - "*.json"
     env:
@@ -52,4 +52,4 @@ tasks:
       FROM read_json_auto('{{workingDir}}/products.json')
       GROUP BY brand
       ORDER BY avg_price DESC;
-    fetchType: STORE
+    fetchType: STORE          # store the result in a dedicated file
