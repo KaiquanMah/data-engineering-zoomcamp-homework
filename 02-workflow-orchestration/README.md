@@ -511,6 +511,20 @@ Docker Container Download Count
 Duration - less than 1 second, so it seems to be listed as 0s
 ![duration](images/2-duration.png)
 
+#### 03_getting_started_data_pipeline yaml Exploration
+1 Extracted JSON
+![1-extracted-JSON](images/3-1-extracted-JSON.png)
+
+2 Extracted JSON as an input to the "transform" step
+![2-extracted-JSON-input-to-transform](images/3-2-extracted-JSON-input-to-transform.png)
+
+3 Transformed Data
+![3-transformed](images/3-3-transformed.png)
+
+4 Queried Output
+![4-queried-output](images/3-4-queried-output.png)
+
+
 
 
 ## 2.3 Hands-On Coding Project: Build Data Pipelines with Kestra
