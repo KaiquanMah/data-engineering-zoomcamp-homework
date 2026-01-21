@@ -39,8 +39,8 @@ tasks:
     type: io.kestra.plugin.scripts.shell.Commands
     outputFiles:
       - "*.csv"
-    taskRunner:
-      type: io.kestra.plugin.core.runner.Process
+    taskRunner:                                   # run process instead of a docker container
+      type: io.kestra.plugin.core.runner.Process  # for lower overheads
     commands:
       - wget -qO- https://github.com/DataTalksClub/nyc-tlc-data/releases/download/{{inputs.taxi}}/{{render(vars.file)}}.gz | gunzip > {{render(vars.file)}}
 
