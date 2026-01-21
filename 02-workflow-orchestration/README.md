@@ -739,7 +739,18 @@ The flow code: [`09_gcp_taxi_scheduled.yaml`](flows/09_gcp_taxi_scheduled.yaml).
 - **2.4.4 - GCP Workflow: Schedule and Backfills**  
   [![GCP Workflow: Schedule and Backfills](https://markdown-videos-api.jorgenkh.no/url?url=https%3A%2F%2Fyoutu.be%2Fb-6KhfWfk2M)](https://youtu.be/b-6KhfWfk2M)
 
+#### Explore GCP backfill using Kestra Flow 09_gcp_taxi_scheduled.yaml
+GCP backfill results in BigQuery
+![gcp-backfill-results-in-bq](images/9-gcp-backfill-results-in-bq.png)
+
+
 ---
+
+
+
+
+
+
 
 ## 2.5 Using AI for Data Engineering in Kestra
 
@@ -775,7 +786,28 @@ However, AI is only as good as the context we provide. This section teaches you 
 ---
 
 #### 2026.01.21 Kai
-* Remember to add GEMINI_API_KEY to `kestra KV store` manually
+To use Gemini in your Kestra workflow
+* Kestra UI - Remember to add GEMINI_API_KEY to `kestra KV store` manually
+
+To use Kestra in the Kestra Flow UI
+* This allows u to use 'AI Copilot' in the Kestra Flow UI when reviewing and editing flows
+* Terminal - `export GEMINI_API_KEY="your-api-key-here"`
+* docker-compose.yml - add to kestra config
+```yaml
+services:
+  kestra:
+    environment:
+      KESTRA_CONFIGURATION: |
+        kestra:
+          ai:
+            type: gemini
+            gemini:
+              model-name: gemini-2.5-flash
+              api-key: ${GEMINI_API_KEY}
+```
+
+
+
 
 
 
