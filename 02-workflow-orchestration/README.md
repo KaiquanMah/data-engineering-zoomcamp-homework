@@ -899,6 +899,14 @@ export GEMINI_API_KEY="your-api-key-here"
 docker compose up -d
 ```
 
+#### Kai 2026.01.21
+* 'AI Copilot' in the Kestra Flow UI
+  * Cannot answer questions
+    ![cannot-ans-qns](images/12-1-cannot-ans-qns.png)
+  * Can only generate or update Kestra flows from prompts
+    ![update-or-generate-kestra-flow](images/12-2-update-or-generate-kestra-flow.png)
+
+
 #### Exercise: ChatGPT vs AI Copilot Comparison
 
 **Objective:** Learn why context engineering matters.
