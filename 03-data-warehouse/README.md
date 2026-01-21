@@ -1,7 +1,7 @@
 # Data Warehouse and BigQuery
 
 - [Slides](https://docs.google.com/presentation/d/1a3ZoBAXFk8-EhUsd7rAZd-5p_HpltkzSeujjRGB2TAI/edit?usp=sharing)  
-- [Big Query basic SQL](big_query.sql)
+- [Big Query basic SQL](1_big_query.sql)
 
 # Videos
 
@@ -59,7 +59,7 @@
     * **Filter** queries
     * **Aggregate** queries
   * Table with data size < 1 GB, don’t show significant improvement with partitioning and clustering
-  * You can specify **up to four clustering columns**
+  * You can specify **up to 4 clustering columns**
   * Clustering columns must be **top-level, non-repeated columns**
     * INT64
     * NUMERIC
@@ -73,9 +73,9 @@
 
 | Partitioning | Clustering |
 | --- | --- |
-| **Cost benefit upfront** | Cost **unknown** |
-| You need partition-level management. |You **need more granularity** than partitioning alone allows | 
-| **Filter or aggregate on single column** | Your queries commonly use filters or aggregation against **multiple specific columns** |
+| **Cost known upfront** | Cost **unknown upfront** |
+| You need partition-level management (**create, move, delete partitions btw storage**) |You **need more granularity** than partitioning alone allows | 
+| **Filter or aggregate on 1 column** | Your queries commonly use filters or aggregation against **multiple specific columns** |
 | NA | The **cardinality/combinations** of the number of values in a column or group of columns is **large** |
 
 * Choose clustering over paritioning when
@@ -96,24 +96,24 @@
     * Avoid SELECT *
     * **Price your queries before running** them
     * Use **clustered or partitioned tables**
-    * Use streaming inserts with caution
-    * Materialize query results in stages
+    * Use streaming inserts with caution????
+    * Materialize query results in stages????
   * Query performance
     * **Filter on partitioned columns**
     * **Denormalizing** data
-    * Use **nested or repeated columns**
+    * Use **nested or repeated columns**????
     * Use external data sources appropriately
-    * Don't use it???, in case u want a high query performance
+    * Don't use it=???, in case u want a high query performance
     * **Reduce data before using a JOIN**
-    * Do not treat WITH clauses as prepared statements
-    * **Avoid oversharding tables**
-    * **Avoid JavaScript user-defined functions**
-    * Use **approximate aggregation functions (HyperLogLog++)**
-    * **Order Last**, for query operations to maximize performance
+    * Do not treat WITH clauses as prepared statements????
+    * **Avoid oversharding tables**????
+    * **Avoid JavaScript user-defined functions**????
+    * Use **approximate aggregation functions (HyperLogLog++)**????
+    * **Order Last**, for query operations to maximize performance????
     * Optimize your join patterns
       * As a best practice,
-        * place the **table with the largest number of rows first**,
-        * followed by the table with the **fewest rows**, and then
+        * place the **table with the largest number of rows first (distributed evenly)**,
+        * followed by the table with the **fewest rows (broadcast to all the nodes)????**, and then
         * place the **remaining tables by decreasing size**
 
 
@@ -139,7 +139,7 @@
 
 [![](https://markdown-videos-api.jorgenkh.no/youtube/B-WtpB0PuG4)](https://youtu.be/B-WtpB0PuG4&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb&index=34)
 
-* [SQL for ML in BigQuery](big_query_ml.sql)
+* [SQL for ML in BigQuery](2_big_query_ml.sql)
 
 **Important links**
 
@@ -152,7 +152,7 @@
 
 [![](https://markdown-videos-api.jorgenkh.no/youtube/BjARzEWaznU)](https://youtu.be/BjARzEWaznU&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb&index=39)
 
-- [Steps to extract and deploy model with docker](extract_model.md)  
+- [Steps to extract and deploy model with docker](3_extract_model.md)  
 
 
 
