@@ -609,7 +609,20 @@ The flow code: [`05_postgres_taxi_scheduled.yaml`](flows/05_postgres_taxi_schedu
 
 #### 05_postgres_taxi_scheduled yaml Exploration
 Scheduled Time - Local vs VM
-![scheduled-time-local-vs-vm](images/5-scheduled-time-local-vs-vm.png)
+![scheduled-time-local-vs-vm](images/5-1-scheduled-time-local-vs-vm.png)
+
+Adhoc run of a scheduled job will fail
+![adhoc-run-of-scheduled-job-will-fail](images/5-2-adhoc-run-of-scheduled-job-will-fail.png)
+
+Backfill using a date range - green and yellow taxi datasets
+* Triggers tab
+![triggers-tab](images/5-3-triggers-tab.png)
+* must ensure the `start and end date and times` cover the `scheduled month and time` to run your backfill
+![execute-backfill](images/5-4-execute-backfill.png)
+![successful backfill](images/5-5-successful-backfill.png)
+
+
+
 
 
 
