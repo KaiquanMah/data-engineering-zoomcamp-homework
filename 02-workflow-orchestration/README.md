@@ -720,8 +720,8 @@ The flow code: [`08_gcp_taxi.yaml`](flows/08_gcp_taxi.yaml).
 
 #### Videos
 
-- **2.4.3 - Create an ETL Pipeline with GCS and BigQuery in Kestra**  
-  [![Create an ETL Pipeline with GCS and BigQuery in Kestra](https://markdown-videos-api.jorgenkh.no/url?url=https%3A%2F%2Fyoutu.be%2F52u9X_bfTAo)](https://youtu.be/52u9X_bfTAo)
+- **2.4.3 - Create an ELT Pipeline with GCS and BigQuery in Kestra**  
+  [![Create an ELT Pipeline with GCS and BigQuery in Kestra](https://markdown-videos-api.jorgenkh.no/url?url=https%3A%2F%2Fyoutu.be%2F52u9X_bfTAo)](https://youtu.be/52u9X_bfTAo)
 
 ### 2.4.4 GCP Workflow: Schedule and Backfill Full Dataset
 
