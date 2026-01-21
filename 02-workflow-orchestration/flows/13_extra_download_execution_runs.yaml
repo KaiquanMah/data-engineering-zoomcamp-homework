@@ -1,0 +1,9 @@
+id: 13_extra_download_execution_runs
+namespace: zoomcamp
+
+tasks:
+  - id: download_executions
+    type: io.kestra.plugin.kestra.executions.Query
+    flowId: 09_gcp_taxi_scheduled
+    namespace: zoomcamp
+    fetchType: STORE
