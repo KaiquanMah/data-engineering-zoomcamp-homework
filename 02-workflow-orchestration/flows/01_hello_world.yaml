@@ -8,14 +8,14 @@ inputs:
 
 concurrency:
   behavior: FAIL
-  limit: 2
+  limit: 2             # limit to 2 concurrent runs. 3rd or more will fail
 
 variables:
   welcome_message: "Hello, {{ inputs.name }}!"
   
 tasks:
   - id: hello_message
-    type: io.kestra.plugin.core.log.Log           # log msg to console
+    type: io.kestra.plugin.core.log.Log           # log welcome msg to console
     message: "{{ render(vars.welcome_message) }}"
   
   - id: generate_output
@@ -27,16 +27,16 @@ tasks:
     duration: PT15S # 15 seconds
 
   - id: log_output
-    type: io.kestra.plugin.core.log.Log
+    type: io.kestra.plugin.core.log.Log           # log rendered generate_output.value to the console
     message: "This is an output: {{ outputs.generate_output.value }}"
 
   - id: goodbye_message
-    type: io.kestra.plugin.core.log.Log
+    type: io.kestra.plugin.core.log.Log           # log name to console
     message: "Goodbye, {{ inputs.name }}!"
 
 pluginDefaults:
-  - type: io.kestra.plugin.core.log.Log
-    values:
+  - type: io.kestra.plugin.core.log.Log           # set console log level to ERROR
+    values:                                       # instead of default level INFO
       level: ERROR
 
 triggers:
@@ -46,4 +46,4 @@ triggers:
     cron: "0 10 * * *"  # 10am
     inputs:
       name: Sarah
-    disabled: true
+    disabled: true      # disable trigger, so it does not keep running in the bkgd
