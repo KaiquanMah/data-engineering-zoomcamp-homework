@@ -989,6 +989,104 @@ graph LR
 2. **Chunk appropriately**: Break large documents into meaningful chunks
 3. **Test retrieval quality**: Verify that the right documents are retrieved
 
+#### Kai - RAG vs No RAG
+* No RAG
+  * chat_without_rag step's output
+    ```bash
+    2026-01-21 16:28:15.492AI Response: AiMessage { text = "Kestra 1.1 was a significant release, focusing on enhancing the platform's power in event-driven orchestration, scalability, and developer experience.
+    Here are at least 5 major features released in Kestra 1.1:
+    1.  **Worker Groups:**
+        *   **Description:** This feature allows you to group Kestra workers and assign them to specific namespaces or even individual flows. This enables better resource isolation, security, and performance tuning, letting you dedicate resources to critical workloads or segregate environments.
+    2.  **Dynamic Task Mapping (MapReduce-like Capability):**
+        *   **Description:** Kestra 1.1 introduced a powerful way to dynamically generate and execute a list of sub-tasks based on input data. This allows for efficient parallel processing of collections, making it ideal for batch operations, data transformations, and MapReduce-like patterns.
+    3.  **Enhanced Event-Driven Triggers:**
+        *   **Description:** The platform's event-driven capabilities were significantly bolstered with more robust and flexible triggers. This included improvements to existing triggers and the introduction of new ones (e.g., more advanced Kafka triggers, SQS, webhook improvements), making it easier to initiate Kestra flows based on external events from a wider array of sources.
+    4.  **Blueprints (Custom Templates):**
+        *   **Description:** Kestra 1.1 enabled users to create and share reusable flow templates, known as blueprints. This feature promotes standardization, accelerates development by allowing teams to encapsulate common patterns and best practices, and improves consistency across projects.
+    5.  **Flow Debugging and Testing Improvements:**
+        *   **Description:** The release brought significant enhancements to the developer experience for debugging and testing flows. This included better visibility into task runs, the ability to re-run specific tasks or segments of a flow, and improved introspection tools, all aimed at faster development cycles and easier troubleshooting.
+    6.  **New Integrations and Plugins (e.g., Azure, AWS SQS, FTP/SFTP):**
+        *   **Description:** While not a single "feature" but a category, Kestra 1.1 broadened its ecosystem with several new plugins. Notable additions included native integrations for Azure Blob Storage, AWS SQS, and new FTP/SFTP capabilities, expanding the range of external systems Kestra could seamlessly interact with.", thinking = null, toolExecutionRequests = [], attributes = {} }
+    ```
+  * log_results step's output
+    ```bash
+    INFO 2026-01-21T08:28:15.589303Z ❌ Response WITHOUT RAG (no retrieved context):
+    Kestra 1.1 was a significant release, focusing on enhancing the platform's power in event-driven orchestration, scalability, nd      developer experience.
+    
+    Here are at least 5 major features released in Kestra 1.1:
+    
+    1.  **Worker Groups:**
+        *   **Description:** This feature allows you to group Kestra workers and assign them to specific namespaces or even ndividual      flows. This enables better resource isolation, security, and performance tuning, letting you dedicate resources o critical      workloads or segregate environments.
+    
+    2.  **Dynamic Task Mapping (MapReduce-like Capability):**
+        *   **Description:** Kestra 1.1 introduced a powerful way to dynamically generate and execute a list of sub-tasks based on nput      data. This allows for efficient parallel processing of collections, making it ideal for batch operations, data ransformations, and      MapReduce-like patterns.
+    
+    3.  **Enhanced Event-Driven Triggers:**
+        *   **Description:** The platform's event-driven capabilities were significantly bolstered with more robust and flexible riggers.      This included improvements to existing triggers and the introduction of new ones (e.g., more advanced Kafka riggers, SQS, webhook      improvements), making it easier to initiate Kestra flows based on external events from a wider rray of sources.
+    
+    4.  **Blueprints (Custom Templates):**
+        *   **Description:** Kestra 1.1 enabled users to create and share reusable flow templates, known as blueprints. This eature      promotes standardization, accelerates development by allowing teams to encapsulate common patterns and best ractices, and improves      consistency across projects.
+    
+    5.  **Flow Debugging and Testing Improvements:**
+        *   **Description:** The release brought significant enhancements to the developer experience for debugging and testing flows. his      included better visibility into task runs, the ability to re-run specific tasks or segments of a flow, and improved ntrospection      tools, all aimed at faster development cycles and easier troubleshooting.
+    
+    6.  **New Integrations and Plugins (e.g., Azure, AWS SQS, FTP/SFTP):**
+        *   **Description:** While not a single "feature" but a category, Kestra 1.1 broadened its ecosystem with several new lugins.      Notable additions included native integrations for Azure Blob Storage, AWS SQS, and new FTP/SFTP capabilities, xpanding the range      of external systems Kestra could seamlessly interact with.
+    
+    🤔 Did you notice that this response seems to be:
+    - Incorrect
+    - Vague/generic
+    - Listing features that haven't been added in exactly this version but rather a long time ago
+    
+    👉 This is why context matters. Run `07_chat_with_rag.yaml` to see the accurate, context-grounded response.
+    ```
+* RAG
+  * ingest_release_notes step
+    * Creates an entry in Kestra KV Store
+    * key: 	`11_chat_with_rag-embedding-store`
+    * type: string
+    * variable
+    ```bash
+    {"entries":[{"id":"3556df95-e37d-4f60-98ba-e5cbd17e7978",
+                 "embedding":{"vector":[-0.0016804289,0.009685294,0.018760767,-0.07759169,-0.020661602,0.009364886,-0.004757318,0.006799914,-0.0012522577,-0.0031849758,-0.0132827815,-0.027936893,-1.9616838E-5,0.011564297,0.13147153, ..., ,-0.0046111094]},
+                 "embedded":{"text":"---\ntitle: \"Kestra 1.1 introduces New Filters, No-Code Dashboards, Human Tasks, AI Agent tool and Dozens of New Plugins\"\ndescription: \"Kestra 1.1 delivers a polished UI with redesigned filters ... and join the community.\n",
+                 "metadata":{"metadata":{"index":"0",
+                                         "url":"https://raw.githubusercontent.com/kestra-io/docs/refs/heads/main/content/blogs/release-1-1.md"}
+                            }
+                            }
+                 }
+                ]
+    }
+    ```
+  * chat_with_rag step
+    ```bash
+    DEBUG 2026-01-21T08:28:11.713790Z Generated completion: AiMessage { text = "Kestra 1.1 introduced several major features. Here are 5 of them with brief descriptions:
+
+    1.  **New Filters**: The UI filters were redesigned based on user feedback to offer improved usability, clearer options, and the ability to save frequently used filter combinations.
+    2.  **No-Code Dashboard Editor**: Users can now create and edit custom dashboards using a no-code, multi-panel editor, allowing for visual building of data sources, visualizations, and charts without writing YAML.
+    3.  **Multi-Agent AI Systems**: Kestra's AI agents can now utilize other AI agents as tools, enabling complex multi-agent orchestration workflows where a primary agent can delegate subtasks to specialized expert agents.
+    4.  **Fix with AI**: When tasks fail, Kestra 1.1 provides AI-powered suggestions to help diagnose and resolve issues, offering intelligent recommendations for fixes.
+    5.  **Human Task**: For Enterprise Edition users, this feature allows workflows to be paused and require manual approval from specific users or groups before continuing, enabling human-in-the-loop workflows.", thinking = null, toolExecutionRequests = [], attributes = {} }
+    ```
+  * log_results step
+    ```bash
+    INFO 2026-01-21T08:28:11.870102Z ✅ RAG Response (with retrieved context):
+    Kestra 1.1 introduced several major features. Here are 5 of them with brief descriptions:
+
+    1.  **New Filters**: The UI filters were redesigned based on user feedback to offer improved usability, clearer options, and the ability to save frequently used filter combinations.
+    2.  **No-Code Dashboard Editor**: Users can now create and edit custom dashboards using a no-code, multi-panel editor, allowing for visual building of data sources, visualizations, and charts without writing YAML.
+    3.  **Multi-Agent AI Systems**: Kestra's AI agents can now utilize other AI agents as tools, enabling complex multi-agent orchestration workflows where a primary agent can delegate subtasks to specialized expert agents.
+    4.  **Fix with AI**: When tasks fail, Kestra 1.1 provides AI-powered suggestions to help diagnose and resolve issues, offering intelligent recommendations for fixes.
+    5.  **Human Task**: For Enterprise Edition users, this feature allows workflows to be paused and require manual approval from specific users or groups before continuing, enabling human-in-the-loop workflows.
+
+    Note that this response is detailed, accurate, and grounded in the actual release documentation. Compare this with the output from 06_chat_without_rag.yaml.
+
+    ```
+
+
+
+
+
 #### Additional AI Resources
 
 Kestra Documentation:
