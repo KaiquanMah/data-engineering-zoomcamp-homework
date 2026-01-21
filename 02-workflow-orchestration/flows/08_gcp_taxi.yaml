@@ -54,6 +54,7 @@ tasks:
     type: io.kestra.plugin.core.flow.If
     condition: "{{inputs.taxi == 'yellow'}}"
     then:
+      # create FINAL TABLE
       - id: bq_yellow_tripdata
         type: io.kestra.plugin.gcp.bigquery.Query
         sql: |
@@ -82,6 +83,9 @@ tasks:
           )
           PARTITION BY DATE(tpep_pickup_datetime);
 
+      # create 1st TABLE to ingest from GCS
+      # AT THIS STAGE, BIGQUERY IS A POINTER that only POINTS TO the GCS file
+      #    We DO NOT READ DATA into BigQuery YET
       - id: bq_yellow_table_ext
         type: io.kestra.plugin.gcp.bigquery.Query
         sql: |
@@ -113,6 +117,9 @@ tasks:
               ignore_unknown_values = TRUE
           );
 
+      # create 2nd TABLE to calculate AND create unique_row_id, filename
+      # AND LOAD IN THE unique_row_id, filename, AND ALL OTHER COLS
+      #     SO THIS STAGE is the 1st time DATA is LOADED from GCS into BigQuery
       - id: bq_yellow_table_tmp
         type: io.kestra.plugin.gcp.bigquery.Query
         sql: |
@@ -130,6 +137,7 @@ tasks:
             *
           FROM `{{kv('GCP_PROJECT_ID')}}.{{render(vars.table)}}_ext`;
 
+      # FINALLY merge from 2nd table into FINAL TABLE
       - id: bq_yellow_merge
         type: io.kestra.plugin.gcp.bigquery.Query
         sql: |
@@ -139,6 +147,8 @@ tasks:
           WHEN NOT MATCHED THEN
             INSERT (unique_row_id, filename, VendorID, tpep_pickup_datetime, tpep_dropoff_datetime, passenger_count, trip_distance, RatecodeID, store_and_fwd_flag, PULocationID, DOLocationID, payment_type, fare_amount, extra, mta_tax, tip_amount, tolls_amount, improvement_surcharge, total_amount, congestion_surcharge)
             VALUES (S.unique_row_id, S.filename, S.VendorID, S.tpep_pickup_datetime, S.tpep_dropoff_datetime, S.passenger_count, S.trip_distance, S.RatecodeID, S.store_and_fwd_flag, S.PULocationID, S.DOLocationID, S.payment_type, S.fare_amount, S.extra, S.mta_tax, S.tip_amount, S.tolls_amount, S.improvement_surcharge, S.total_amount, S.congestion_surcharge);
+
+
 
   - id: if_green_taxi
     type: io.kestra.plugin.core.flow.If
