@@ -1,6 +1,7 @@
 id: 06_gcp_kv
 namespace: zoomcamp
 
+# these 4 tasks set the key-value in the kestra KV store
 tasks:
   - id: gcp_project_id
     type: io.kestra.plugin.core.kv.Set
