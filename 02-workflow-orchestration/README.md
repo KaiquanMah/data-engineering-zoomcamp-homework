@@ -690,6 +690,9 @@ If you haven't already created the GCS bucket and BigQuery dataset in the first 
 #### Resources
 - [Set up Google Cloud Service Account in Kestra](https://go.kestra.io/de-zoomcamp/google-sa)
 
+
+
+
 ### 2.4.3 GCP Workflow: Load Taxi Data to BigQuery
 
 Now that Google Cloud is set up with a storage bucket, we can start the ELT process.
