@@ -262,14 +262,15 @@ pluginDefaults:
       password: root
 
 triggers:
+  # min hr day month dayOfTheWeek (Reference: https://crontab.cronhub.io/)
   - id: green_schedule
     type: io.kestra.plugin.core.trigger.Schedule
-    cron: "0 9 1 * *"
+    cron: "0 9 1 * *"  # 1st day of every month at 9am
     inputs:
       taxi: green
 
   - id: yellow_schedule
     type: io.kestra.plugin.core.trigger.Schedule
-    cron: "0 10 1 * *"
+    cron: "0 10 1 * *" # 1st day of every month at 10am
     inputs:
       taxi: yellow
