@@ -607,23 +607,29 @@ The flow code: [`05_postgres_taxi_scheduled.yaml`](flows/05_postgres_taxi_schedu
   [![Scheduling and Backfills](https://markdown-videos-api.jorgenkh.no/url?url=https%3A%2F%2Fyoutu.be%2F1pu_C_oOAMA)](https://youtu.be/1pu_C_oOAMA)
 ---
 
+#### 05_postgres_taxi_scheduled yaml Exploration
+Scheduled Time - Local vs VM
+![scheduled-time-local-vs-vm](images/5-scheduled-time-local-vs-vm.png)
+
+
+
 ## 2.4 ELT Pipelines in Kestra: Google Cloud Platform
 
-Now that you've learned how to build ETL pipelines locally using Postgres, we are ready to move to the cloud. In this section, we'll load the same Yellow and Green Taxi data to Google Cloud Platform (GCP) using: 
+Now that you've learned how to build ETL pipelines locally using Postgres, we are ready to move to the cloud. In this section, we'll **load the same Yellow and Green Taxi data to Google Cloud Platform (GCP)** using: 
 1. Google Cloud Storage (GCS) as a data lake  
 2. BigQuery as a data warehouse.
 
 ### 2.4.1 - ETL vs ELT
 
-In 2.3, we made a ETL pipeline inside of Kestra:
+In 2.3, we made a **ETL pipeline inside of Kestra**:
 - **Extract:** Firstly, we extract the dataset from GitHub
-- **Transform:** Next, we transform it with Python
-- **Load:** Finally, we load it into our Postgres database
+- **Transform:** Next, we transform it **with Python**
+- **Load:** Finally, we load it **into our Postgres database**
 
-While this is very standard across the industry, sometimes it makes sense to change the order when working with the cloud. If you're working with a large dataset, like the Yellow Taxi data, there can be benefits to extracting and loading straight into a data warehouse, and then performing transformations directly in the data warehouse. When working with BigQuery, we will use ELT:
+While this is very standard across the industry, sometimes it makes sense to change the order when working with the cloud. If you're **working with a large dataset**, like the Yellow Taxi data, there can be benefits to extracting and loading straight into a data warehouse, and **then performing transformations directly in the data warehouse**. When working with BigQuery, we will use ELT:
 - **Extract:** Firstly, we extract the dataset from GitHub
-- **Load:** Next, we load this dataset (in this case, a csv file) into a data lake (Google Cloud Storage)
-- **Transform:** Finally, we can create a table inside of our data warehouse (BigQuery) which uses the data from our data lake to perform our transformations.
+- **Load:** Next, we load this dataset (in this case, a csv file) **into a data lake (Google Cloud Storage)**
+- **Transform:** Finally, we can create a table inside of our **data warehouse (BigQuery) which uses the data from our data lake to perform our transformations.**
 
 The reason for loading into the data warehouse before transforming means we can utilize the cloud's performance benefits for transforming large datasets. What might take a lot longer for a local machine, can take a fraction of the time in the cloud.
 
