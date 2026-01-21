@@ -164,214 +164,78 @@ Answer: `green_tripdata_2020-04.csv`
     * Connection #0 to host localhost left intact
     @kaiquanmah0 ➜ /workspaces/data-engineering-zoomcamp-homework/02-workflow-orchestration (main) $ curl "http://localhost:8080/api/v1/flows"
     ```
-  * Download list execution runs by running a flow
-| Id | Start date | End date | Duration | Namespace | Flow | Labels | State | Actions |
-| ES98Ffb3 | Wed, Jan 21, 2026 5:26 PM | Wed, Jan 21, 2026 5:27 PM | 1m, 1.01s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2020-12.csvtaxi:yellow | SUCCESS | Details |
-| 5n8KVHyz | Wed, Jan 21, 2026 5:25 PM | Wed, Jan 21, 2026 5:26 PM | 1m, 8.63s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2020-11.csvtaxi:yellow |  | SUCCESS | Details |
-| 2gIESsbx | Wed, Jan 21, 2026 5:23 PM | Wed, Jan 21, 2026 5:25 PM | 1m, 17.36s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2020-10.csvtaxi:yellow |  | SUCCESS | Details |
-| 44rznaUy | Wed, Jan 21, 2026 5:22 PM | Wed, Jan 21, 2026 5:23 PM | 1m, 2.64s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2020-09.csvtaxi:yellow |  | SUCCESS | Details |
-| 60IHjoiZ | Wed, Jan 21, 2026 5:22 PM | Wed, Jan 21, 2026 5:22 PM | 29.31s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2021-07.csvtaxi:green |  | SUCCESS | Details |
-| 1NtK7wZ3 | Wed, Jan 21, 2026 5:21 PM | Wed, Jan 21, 2026 5:22 PM | 50.71s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2020-08.csvtaxi:yellow |  | SUCCESS | Details |
-| 6ZBpw8AQ | Wed, Jan 21, 2026 5:21 PM | Wed, Jan 21, 2026 5:22 PM | 17.83s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2021-06.csvtaxi:green |  | SUCCESS | Details |
-| 6ytB6sSt | Wed, Jan 21, 2026 5:21 PM | Wed, Jan 21, 2026 5:21 PM | 18.36s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2021-05.csvtaxi:green |  | SUCCESS | Details |
-| 7KH8Y5Gd | Wed, Jan 21, 2026 5:21 PM | Wed, Jan 21, 2026 5:21 PM | 18.34s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2021-04.csvtaxi:green |  | SUCCESS | Details |
-| 31BzK9Y3 | Wed, Jan 21, 2026 5:20 PM | Wed, Jan 21, 2026 5:21 PM | 54.27s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2021-06.csvtaxi:green |  | SUCCESS | Details |
-| 6BZp5Q6L | Wed, Jan 21, 2026 5:20 PM | Wed, Jan 21, 2026 5:21 PM | 19.68s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2021-03.csvtaxi:green |  | SUCCESS | Details |
-| 2m5JO9Da | Wed, Jan 21, 2026 5:19 PM | Wed, Jan 21, 2026 5:20 PM | 56.51s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2021-02.csvtaxi:green |  | SUCCESS | Details |
-| 2uHGZBE5 | Wed, Jan 21, 2026 5:19 PM | Wed, Jan 21, 2026 5:19 PM | 21.70s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2021-01.csvtaxi:green |  | SUCCESS | Details |
-| 6tgdlXaZ | Wed, Jan 21, 2026 5:19 PM | Wed, Jan 21, 2026 5:20 PM | 1m, 35.24s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2020-06.csvtaxi:yellow |  | SUCCESS | Details |
-| 7lapRxlP | Wed, Jan 21, 2026 5:19 PM | Wed, Jan 21, 2026 5:19 PM | 18.39s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2020-12.csvtaxi:green |  | SUCCESS | Details |
-| 5hWohFVr | Wed, Jan 21, 2026 5:18 PM | Wed, Jan 21, 2026 5:19 PM | 25.04s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2020-05.csvtaxi:yellow |  | SUCCESS | Details |
-| 6wnFX8SK | Wed, Jan 21, 2026 5:18 PM | Wed, Jan 21, 2026 5:19 PM | 21.73s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2020-11.csvtaxi:green |  | SUCCESS | Details |
-| 4Sv7u8lD | Wed, Jan 21, 2026 5:18 PM | Wed, Jan 21, 2026 5:18 PM | 22.72s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2020-04.csvtaxi:yellow |  | SUCCESS | Details |
-| 1ubEURxU | Wed, Jan 21, 2026 5:18 PM | Wed, Jan 21, 2026 5:18 PM | 18.55s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2020-10.csvtaxi:green |  | SUCCESS | Details |
-| 4nppiEyd | Wed, Jan 21, 2026 5:17 PM | Wed, Jan 21, 2026 5:18 PM | 53.26s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2020-09.csvtaxi:green |  | SUCCESS | Details |
-| 7AcUP93a | Wed, Jan 21, 2026 5:17 PM | Wed, Jan 21, 2026 5:17 PM | 18.12s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2020-08.csvtaxi:green |  | SUCCESS | Details |
-| 37QhQDvZ | Wed, Jan 21, 2026 5:16 PM | Wed, Jan 21, 2026 5:17 PM | 18.41s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2020-07.csvtaxi:green |  | SUCCESS | Details |
-| 78J21ylW | Wed, Jan 21, 2026 5:16 PM | Wed, Jan 21, 2026 5:16 PM | 20.44s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2020-06.csvtaxi:green |  | SUCCESS | Details |
-| 5fNwZnn8 | Wed, Jan 21, 2026 5:16 PM | Wed, Jan 21, 2026 5:18 PM | 1m, 57.09s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2020-03.csvtaxi:yellow |  | SUCCESS | Details |
-| 4VxDGrlF | Wed, Jan 21, 2026 5:16 PM | Wed, Jan 21, 2026 5:16 PM | 16.76s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2020-05.csvtaxi:green |  | SUCCESS | Details |
-| 60IHjoiZ | Wed, Jan 21, 2026 5:22 PM | Wed, Jan 21, 2026 5:22 PM | 29.31s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2021-07.csvtaxi:green |  | SUCCESS | Details |
-| 1NtK7wZ3 | Wed, Jan 21, 2026 5:21 PM | Wed, Jan 21, 2026 5:22 PM | 50.71s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2020-08.csvtaxi:yellow |  | SUCCESS | Details |
-| 6ZBpw8AQ | Wed, Jan 21, 2026 5:21 PM | Wed, Jan 21, 2026 5:22 PM | 17.83s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2021-06.csvtaxi:green |  | SUCCESS | Details |
-
-
-6wnFX8SK
-Wed, Jan 21, 2026 5:18 PM
-Wed, Jan 21, 2026 5:19 PM
-21.73s
-zoomcamp
-09_gcp_taxi_scheduled
-file:green_tripdata_2020-11.csvtaxi:green
-4Sv7u8lD
-Wed, Jan 21, 2026 5:18 PM
-Wed, Jan 21, 2026 5:18 PM
-22.72s
-zoomcamp
-09_gcp_taxi_scheduled
-file:yellow_tripdata_2020-04.csvtaxi:yellow
-1ubEURxU
-Wed, Jan 21, 2026 5:18 PM
-Wed, Jan 21, 2026 5:18 PM
-18.55s
-zoomcamp
-09_gcp_taxi_scheduled
-file:green_tripdata_2020-10.csvtaxi:green
-4nppiEyd
-Wed, Jan 21, 2026 5:17 PM
-Wed, Jan 21, 2026 5:18 PM
-53.26s
-zoomcamp
-09_gcp_taxi_scheduled
-file:green_tripdata_2020-09.csvtaxi:green
-7AcUP93a
-Wed, Jan 21, 2026 5:17 PM
-Wed, Jan 21, 2026 5:17 PM
-18.12s
-zoomcamp
-09_gcp_taxi_scheduled
-file:green_tripdata_2020-08.csvtaxi:green
-37QhQDvZ
-Wed, Jan 21, 2026 5:16 PM
-Wed, Jan 21, 2026 5:17 PM
-18.41s
-zoomcamp
-09_gcp_taxi_scheduled
-file:green_tripdata_2020-07.csvtaxi:green
-78J21ylW
-Wed, Jan 21, 2026 5:16 PM
-Wed, Jan 21, 2026 5:16 PM
-20.44s
-zoomcamp
-09_gcp_taxi_scheduled
-file:green_tripdata_2020-06.csvtaxi:green
-5fNwZnn8
-Wed, Jan 21, 2026 5:16 PM
-Wed, Jan 21, 2026 5:18 PM
-1m, 57.09s
-zoomcamp
-09_gcp_taxi_scheduled
-file:yellow_tripdata_2020-03.csvtaxi:yellow
-4VxDGrlF
-Wed, Jan 21, 2026 5:16 PM
-Wed, Jan 21, 2026 5:16 PM
-16.76s
-zoomcamp
-09_gcp_taxi_scheduled
-file:green_tripdata_2020-05.csvtaxi:green
-5J5P3abd
-Wed, Jan 21, 2026 5:16 PM
-Wed, Jan 21, 2026 5:16 PM
-16.54s
-zoomcamp
-09_gcp_taxi_scheduled
-file:green_tripdata_2020-04.csvtaxi:green
-5aEM6MmX
-Wed, Jan 21, 2026 5:15 PM
-Wed, Jan 21, 2026 5:15 PM
-24.11s
-zoomcamp
-09_gcp_taxi_scheduled
-file:green_tripdata_2020-03.csvtaxi:green
-39WXmch9
-Wed, Jan 21, 2026 5:15 PM
-Wed, Jan 21, 2026 5:15 PM
-32.60s
-zoomcamp
-09_gcp_taxi_scheduled
-file:green_tripdata_2020-02.csvtaxi:green
-7BTHyGOV
-Wed, Jan 21, 2026 5:14 PM
-Wed, Jan 21, 2026 5:15 PM
-33.25s
-zoomcamp
-09_gcp_taxi_scheduled
-file:green_tripdata_2020-01.csvtaxi:green
-6ekGh9TT
-Wed, Jan 21, 2026 5:13 PM
-Wed, Jan 21, 2026 5:16 PM
-3m, 22.39s
-zoomcamp
-09_gcp_taxi_scheduled
-file:yellow_tripdata_2020-02.csvtaxi:yellow
-48pUgMGQ
-Wed, Jan 21, 2026 5:07 PM
-Wed, Jan 21, 2026 5:10 PM
-3m, 26.34s
-zoomcamp
-09_gcp_taxi_scheduled
-file:yellow_tripdata_2020-01.csvtaxi:yellow
-5C5Daq4A
-Wed, Jan 21, 2026 5:06 PM
-Wed, Jan 21, 2026 5:08 PM
-1m, 58.13s
-zoomcamp
-09_gcp_taxi_scheduled
-file:yellow_tripdata_2021-07.csvtaxi:yellow
-3V9ToELD
-Wed, Jan 21, 2026 5:04 PM
-Wed, Jan 21, 2026 5:06 PM
-1m, 52.49s
-zoomcamp
-09_gcp_taxi_scheduled
-file:yellow_tripdata_2021-06.csvtaxi:yellow
-64U8w6Ee
-Wed, Jan 21, 2026 5:02 PM
-Wed, Jan 21, 2026 5:04 PM
-1m, 51.75s
-zoomcamp
-09_gcp_taxi_scheduled
-file:yellow_tripdata_2021-05.csvtaxi:yellow
-1wVN9HsT
-Wed, Jan 21, 2026 5:00 PM
-Wed, Jan 21, 2026 5:02 PM
-1m, 33.27s
-zoomcamp
-09_gcp_taxi_scheduled
-file:yellow_tripdata_2021-04.csvtaxi:yellow
-4ohFMYBw
-Wed, Jan 21, 2026 4:59 PM
-Wed, Jan 21, 2026 5:00 PM
-1m, 20.88s
-zoomcamp
-09_gcp_taxi_scheduled
-file:yellow_tripdata_2021-03.csvtaxi:yellow
-7N5ZgqyZ
-Wed, Jan 21, 2026 4:58 PM
-Wed, Jan 21, 2026 4:59 PM
-59.08s
-zoomcamp
-09_gcp_taxi_scheduled
-file:yellow_tripdata_2021-02.csvtaxi:yellow
-60CvMDHc
-Wed, Jan 21, 2026 4:57 PM
-Wed, Jan 21, 2026 4:58 PM
-1m, 7.57s
-zoomcamp
-09_gcp_taxi_scheduled
-file:yellow_tripdata_2021-01.csvtaxi:yellow
-IM8YEGxD
-Wed, Jan 21, 2026 4:02 PM
-Wed, Jan 21, 2026 4:06 PM
-4m, 1.38s
-zoomcamp
-09_gcp_taxi_scheduled
-file:yellow_tripdata_2019-02.csvtaxi:yellow
-qCudMigM
-Wed, Jan 21, 2026 3:58 PM
-Wed, Jan 21, 2026 4:02 PM
-4m, 2.78s
-zoomcamp
-09_gcp_taxi_scheduled
-file:yellow_tripdata_2019-01.csvtaxi:yellow
-2OGCtcHF
-Wed, Jan 21, 2026 3:53 PM
-Wed, Jan 21, 2026 3:58 PM
-4m, 15.20s
-zoomcamp
-09_gcp_taxi_scheduled
-file:yellow_tripdata_2019-03.csvtaxi:yellow
+  * Download list execution runs by running the `13_extra_download_execution_runs.yaml` flow (following https://www.youtube.com/watch?v=RkVugo8wD80) - FAILED
+    ```bash
+    TRACE 2026-01-21T10:35:20.180064Z ApiException{code=401, responseHeaders={content-length=[0], WWW-Authenticate=[Basic]}, responseBody=''}
+	at io.kestra.sdk.internal.ApiClient.processResponse(ApiClient.java:1029)
+	at io.kestra.sdk.internal.ApiClient.invokeAPI(ApiClient.java:1116)
+	at io.kestra.sdk.api.ExecutionsApi.searchExecutions(ExecutionsApi.java:3122)
+	at io.kestra.sdk.api.ExecutionsApi.searchExecutions(ExecutionsApi.java:3056)
+	at io.kestra.plugin.kestra.executions.Query.executeSearch(Query.java:260)
+	at io.kestra.plugin.kestra.executions.Query.run(Query.java:158)
+	at io.kestra.plugin.kestra.executions.Query.run(Query.java:33)
+	at io.kestra.worker.WorkerTaskCallable.doCall(WorkerTaskCallable.java:81)
+	at io.kestra.worker.AbstractWorkerCallable.call(AbstractWorkerCallable.java:64)
+	at io.kestra.worker.WorkerSecurityService.callInSecurityContext(WorkerSecurityService.java:10)
+	at io.kestra.worker.DefaultWorker.lambda$callJob$19(DefaultWorker.java:980)
+	at io.kestra.core.trace.NoopTracer.inCurrentContext(NoopTracer.java:15)
+	at io.kestra.worker.DefaultWorker.callJob(DefaultWorker.java:976)
+	at io.kestra.worker.DefaultWorker.runAttempt(DefaultWorker.java:934)
+	at io.kestra.worker.DefaultWorker.run(DefaultWorker.java:728)
+	at io.kestra.worker.DefaultWorker.handleTask(DefaultWorker.java:379)
+	at io.kestra.worker.DefaultWorker.lambda$run$8(DefaultWorker.java:294)
+	at io.micrometer.core.instrument.internal.TimedRunnable.run(TimedRunnable.java:49)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
     ```
+  * Copy and paste and manually format the execution runs table
+    | Id | Start date | End date | Duration | Namespace | Flow | Labels | State | Actions |
+    | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+    | ES98Ffb3 | Wed, Jan 21, 2026 5:26 PM | Wed, Jan 21, 2026 5:27 PM | 1m, 1.01s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2020-12.csvtaxi:yellow | SUCCESS | details |
+    | 5n8KVHyz | Wed, Jan 21, 2026 5:25 PM | Wed, Jan 21, 2026 5:26 PM | 1m, 8.63s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2020-11.csvtaxi:yellow | SUCCESS | details |
+    | 2gIESsbx | Wed, Jan 21, 2026 5:23 PM | Wed, Jan 21, 2026 5:25 PM | 1m, 17.36s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2020-10.csvtaxi:yellow | SUCCESS | details |
+    | 44rznaUy | Wed, Jan 21, 2026 5:22 PM | Wed, Jan 21, 2026 5:23 PM | 1m, 2.64s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2020-09.csvtaxi:yellow | SUCCESS | details |
+    | 60IHjoiZ | Wed, Jan 21, 2026 5:22 PM | Wed, Jan 21, 2026 5:22 PM | 29.31s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2021-07.csvtaxi:green | SUCCESS | details |
+    | 1NtK7wZ3 | Wed, Jan 21, 2026 5:21 PM | Wed, Jan 21, 2026 5:22 PM | 50.71s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2020-08.csvtaxi:yellow | SUCCESS | details |
+    | 6ZBpw8AQ | Wed, Jan 21, 2026 5:21 PM | Wed, Jan 21, 2026 5:22 PM | 17.83s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2021-06.csvtaxi:green | SUCCESS | details |
+    | 6ytB6sSt | Wed, Jan 21, 2026 5:21 PM | Wed, Jan 21, 2026 5:21 PM | 18.36s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2021-05.csvtaxi:green | SUCCESS | details |
+    | 7KH8Y5Gd | Wed, Jan 21, 2026 5:21 PM | Wed, Jan 21, 2026 5:21 PM | 18.34s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2021-04.csvtaxi:green | SUCCESS | details |
+    | 31BzK9Y3 | Wed, Jan 21, 2026 5:20 PM | Wed, Jan 21, 2026 5:21 PM | 54.27s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2020-07.csvtaxi:yellow | SUCCESS | details |
+    | 6BZp5Q6L | Wed, Jan 21, 2026 5:20 PM | Wed, Jan 21, 2026 5:21 PM | 19.68s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2021-03.csvtaxi:green | SUCCESS | details |
+    | 2m5JO9Da | Wed, Jan 21, 2026 5:19 PM | Wed, Jan 21, 2026 5:20 PM | 56.51s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2021-02.csvtaxi:green | SUCCESS | details |
+    | 2uHGZBE5 | Wed, Jan 21, 2026 5:19 PM | Wed, Jan 21, 2026 5:19 PM | 21.70s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2021-01.csvtaxi:green | SUCCESS | details |
+    | 6tgdlXaZ | Wed, Jan 21, 2026 5:19 PM | Wed, Jan 21, 2026 5:20 PM | 1m, 35.24s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2020-06.csvtaxi:yellow | SUCCESS | details |
+    | 7lapRxlP | Wed, Jan 21, 2026 5:19 PM | Wed, Jan 21, 2026 5:19 PM | 18.39s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2020-12.csvtaxi:green | SUCCESS | details |
+    | 5hWohFVr | Wed, Jan 21, 2026 5:18 PM | Wed, Jan 21, 2026 5:19 PM | 25.04s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2020-05.csvtaxi:yellow | SUCCESS | details |
+    | 6wnFX8SK | Wed, Jan 21, 2026 5:18 PM | Wed, Jan 21, 2026 5:19 PM | 21.73s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2020-11.csvtaxi:green | SUCCESS | details |
+    | 4Sv7u8lD | Wed, Jan 21, 2026 5:18 PM | Wed, Jan 21, 2026 5:18 PM | 22.72s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2020-04.csvtaxi:yellow | SUCCESS | details |
+    | 1ubEURxU | Wed, Jan 21, 2026 5:18 PM | Wed, Jan 21, 2026 5:18 PM | 18.55s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2020-10.csvtaxi:green | SUCCESS | details |
+    | 4nppiEyd | Wed, Jan 21, 2026 5:17 PM | Wed, Jan 21, 2026 5:18 PM | 53.26s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2020-09.csvtaxi:green | SUCCESS | details |
+    | 7AcUP93a | Wed, Jan 21, 2026 5:17 PM | Wed, Jan 21, 2026 5:17 PM | 18.12s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2020-08.csvtaxi:green | SUCCESS | details |
+    | 37QhQDvZ | Wed, Jan 21, 2026 5:16 PM | Wed, Jan 21, 2026 5:17 PM | 18.41s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2020-07.csvtaxi:green | SUCCESS | details |
+    | 78J21ylW | Wed, Jan 21, 2026 5:16 PM | Wed, Jan 21, 2026 5:16 PM | 20.44s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2020-06.csvtaxi:green | SUCCESS | details |
+    | 5fNwZnn8 | Wed, Jan 21, 2026 5:16 PM | Wed, Jan 21, 2026 5:18 PM | 1m, 57.09s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2020-03.csvtaxi:yellow | SUCCESS | details |
+    | 4VxDGrlF | Wed, Jan 21, 2026 5:16 PM | Wed, Jan 21, 2026 5:16 PM | 16.76s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2020-05.csvtaxi:green | SUCCESS | details |
+    | 5J5P3abd | Wed, Jan 21, 2026 5:16 PM | Wed, Jan 21, 2026 5:16 PM | 16.54s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2020-04.csvtaxi:green | SUCCESS | details |
+    | 5aEM6MmX | Wed, Jan 21, 2026 5:15 PM | Wed, Jan 21, 2026 5:15 PM | 24.11s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2020-03.csvtaxi:green | SUCCESS | details |
+    | 39WXmch9 | Wed, Jan 21, 2026 5:15 PM | Wed, Jan 21, 2026 5:15 PM | 32.60s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2020-02.csvtaxi:green | SUCCESS | details |
+    | 7BTHyGOV | Wed, Jan 21, 2026 5:14 PM | Wed, Jan 21, 2026 5:15 PM | 33.25s | zoomcamp | 09_gcp_taxi_scheduled | file:green_tripdata_2020-01.csvtaxi:green | SUCCESS | details |
+    | 6ekGh9TT | Wed, Jan 21, 2026 5:13 PM | Wed, Jan 21, 2026 5:16 PM | 3m, 22.39s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2020-02.csvtaxi:yellow | SUCCESS | details |
+    | 48pUgMGQ | Wed, Jan 21, 2026 5:07 PM | Wed, Jan 21, 2026 5:10 PM | 3m, 26.34s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2020-01.csvtaxi:yellow | SUCCESS | details |
+    | 5C5Daq4A | Wed, Jan 21, 2026 5:06 PM | Wed, Jan 21, 2026 5:08 PM | 1m, 58.13s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2021-07.csvtaxi:yellow | SUCCESS | details |
+    | 3V9ToELD | Wed, Jan 21, 2026 5:04 PM | Wed, Jan 21, 2026 5:06 PM | 1m, 52.49s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2021-06.csvtaxi:yellow | SUCCESS | details |
+    | 64U8w6Ee | Wed, Jan 21, 2026 5:02 PM | Wed, Jan 21, 2026 5:04 PM | 1m, 51.75s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2021-05.csvtaxi:yellow | SUCCESS | details |
+    | 1wVN9HsT | Wed, Jan 21, 2026 5:00 PM | Wed, Jan 21, 2026 5:02 PM | 1m, 33.27s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2021-04.csvtaxi:yellow | SUCCESS | details |
+    | 4ohFMYBw | Wed, Jan 21, 2026 4:59 PM | Wed, Jan 21, 2026 5:00 PM | 1m, 20.88s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2021-03.csvtaxi:yellow | SUCCESS | details |
+    | 7N5ZgqyZ | Wed, Jan 21, 2026 4:58 PM | Wed, Jan 21, 2026 4:59 PM | 59.08s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2021-02.csvtaxi:yellow | SUCCESS | details |
+    | 60CvMDHc | Wed, Jan 21, 2026 4:57 PM | Wed, Jan 21, 2026 4:58 PM | 1m, 7.57s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2021-01.csvtaxi:yellow | SUCCESS | details |
+    | IM8YEGxD | Wed, Jan 21, 2026 4:02 PM | Wed, Jan 21, 2026 4:06 PM | 4m, 1.38s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2019-02.csvtaxi:yellow | SUCCESS | details |
+    | qCudMigM | Wed, Jan 21, 2026 3:58 PM | Wed, Jan 21, 2026 4:02 PM | 4m, 2.78s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2019-01.csvtaxi:yellow | SUCCESS | details |
+    | 2OGCtcHF | Wed, Jan 21, 2026 3:53 PM | Wed, Jan 21, 2026 3:58 PM | 4m, 15.20s | zoomcamp | 09_gcp_taxi_scheduled | file:yellow_tripdata_2019-03.csvtaxi:yellow | SUCCESS | details |
+
+
+
 
 
 3) How many rows are there for the `Yellow` Taxi data for all CSV files in the year 2020?
