@@ -671,6 +671,12 @@ First, adjust the following flow [`06_gcp_kv.yaml`](flows/06_gcp_kv.yaml) to inc
 Add GCP config to kestra `KV Store`
 ![add-GCPconfig-to-kestra-kvstore](images/6-add-GCPconfig-to-kestra-kvstore.png)
 
+Also remember to add GCP_CREDS manually to Kestra `KV Store`
+* namespace: zoomcamp
+* key: GCP_CREDS
+* value: `paste the entire JSON content of your GCP service account key file here`
+
+
 
 #### Create GCP Resources
 
