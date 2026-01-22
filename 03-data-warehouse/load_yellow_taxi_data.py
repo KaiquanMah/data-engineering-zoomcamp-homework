@@ -8,7 +8,7 @@ import time
 
 
 # Change this to your bucket name
-BUCKET_NAME = " kai-kestra"
+BUCKET_NAME = "kai-kestra"
 
 # If you authenticated through the GCP SDK you can comment out these two lines
 # CREDENTIALS_FILE = "gcs.json"
