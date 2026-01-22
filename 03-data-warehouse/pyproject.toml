@@ -1,0 +1,13 @@
+[project]
+name = "data-warehouse"
+version = "0.1.0"
+description = "DE Zoomcamp W3 Data warehouse"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "google",
+    "google-cloud-storage",
+]
+
+[tool.uv]
+# This tells uv to use this pyproject.toml for dependency management
