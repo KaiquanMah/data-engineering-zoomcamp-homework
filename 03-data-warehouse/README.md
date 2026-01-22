@@ -97,19 +97,141 @@
     * **Price your queries before running** them
     * Use **clustered or partitioned tables**
     * Use streaming inserts with caution????
+      * `Streaming insert` costs a certain dollar amount per amount of data inserted (https://cloud.google.com/bigquery/pricing)
+      * `Batch inserts` are free (https://cloud.google.com/bigquery/pricing#free-operations)
+      * use `streaming insert` only if downstream consumers need the data immediately
     * Materialize query results in stages????
+      * Break down a complex query into multiple stages/parts
+      * Materialize intermediate results for each stage/part
+      * Use materialised views in the final complex query
+      * Materialised views
+        * Use precomputed/stored query results: Reduces the amount of data to be scanned for future queries
   * Query performance
     * **Filter on partitioned columns**
     * **Denormalizing** data
     * Use **nested or repeated columns**????
-    * Use external data sources appropriately
-    * Don't use it=???, in case u want a high query performance
+      * `Repeated col` - denormalises data, so u need less/no JOINs -> dec data scanned during query
+      ```sql
+      # normalised/higher cost
+      -- orders table
+      CREATE TABLE orders (
+        order_id STRING,
+        customer_id STRING,
+        order_date TIMESTAMP,
+        total_amount FLOAT64
+      );
+
+      -- order_items table  
+      CREATE TABLE order_items (
+        order_id STRING,
+        product_id STRING,
+        quantity INT64,
+        price FLOAT64
+      );
+
+      -- products table
+      CREATE TABLE products (
+        product_id STRING,
+        product_name STRING,
+        category STRING
+      );
+
+      --query with JOINs
+      SELECT 
+        o.order_id,
+        o.order_date,
+        p.product_name,
+        oi.quantity,
+        oi.price
+      FROM orders o
+      JOIN order_items oi ON o.order_id = oi.order_id
+      JOIN products p ON oi.product_id = p.product_id
+      WHERE o.order_date BETWEEN '2024-01-01' AND '2024-01-31'
+
+
+
+
+
+
+      -- Denormalised Schema with Nested/Repeated Fields (Lower Cost)
+      -- Single denormalized table with nested structure
+      CREATE TABLE orders_denormalized (
+        order_id STRING,
+        customer_id STRING,
+        order_date TIMESTAMP,
+        total_amount FLOAT64,
+        items ARRAY<STRUCT<
+          product_id STRING,
+          product_name STRING,
+          category STRING,
+          quantity INT64,
+          price FLOAT64
+        >>
+      );
+
+      -- denormalised query
+      SELECT 
+        order_id,
+        order_date,
+        item.product_name,
+        item.quantity,
+        item.price
+      FROM orders_denormalized,
+      UNNEST(items) AS item
+      WHERE order_date BETWEEN '2024-01-01' AND '2024-01-31'
+
+
+      -- Normalized Approach:
+      --     Data Scanned:
+      --     orders table: 10 GB (all orders)
+      --     order_items table: 15 GB (all items)
+      --     products table: 2 GB (all products)
+      --     Total: 27 GB scanned
+      -- Denormalized with Nested Fields:
+      --     Data Scanned:
+      --     orders_denormalized table: 10 GB (but only 1 month filtered)
+      --     Actual scanned after filter: ~0.8 GB (assuming 1 month = 1/12 of data)
+      --     Total: 0.8 GB scanned
+      -- Cost Savings: ~97% reduction in data scanned!
+      ```
+    * Use **external data sources** appropriately????
+      * Do not use an external data source if you're seeking better performance, unless it is **for frequently changing data that needs real-time access**
+      * Consider **loading data into BigQuery native tables for better query performance** when the **data doesn't change frequently**
+    * Don't use `it=??? (what is it here????)`, in case u want a high query performance
     * **Reduce data before using a JOIN**
-    * Do not treat WITH clauses as prepared statements????
+    * Do not treat **WITH clauses** as prepared statements????
+      * BigQuery only materializes recursive CTEs, not non-recursive CTEs
+      * Data flowing through a CTE **gets shuffled, stored, and read again downstream**, which can significantly increase processing time and cost
+      * Better approach: Instead of relying on WITH clauses for performance, **filter data aggressively at the earliest stage** and consider **materialized views for frequently used intermediate results**
     * **Avoid oversharding tables**????
+      ```bash
+      # oversharding eg
+      table_2025_01_01
+      table_2025_01_02
+      table_2025_01_03
+      ...
+      ```
+      * Creates management overhead - dec query pf cuz need to scan multiple tables
+      * sols
+        * do not use date (YYYY-MM-DD) partitioned tables
+        * time-partitioned tables
     * **Avoid JavaScript user-defined functions**????
+      * JavaScript UDFs run in a sandboxed V8 environment with **significant overhead**
+        * Higher CPU and memory consumption compared to native SQL functions
+        * Can cause query failures due to resource limits or timeouts
+      * JS UDF **process data row-by-row (not parallelized efficiently)**
+        * No query optimizer benefits - BigQuery can't optimize JS UDF execution
     * Use **approximate aggregation functions (HyperLogLog++)**????
+      * HyperLogLog++ algorithm provides **highly accurate approximations (typically <1% error)** with massive performance gains
+      * Approximate functions like **APPROX_COUNT_DISTINCT use significantly less memory and CPU**
+        * Much faster execution time, especially on billion+ row datasets
+        * Cost savings by reducing data processed and computation time
     * **Order Last**, for query operations to maximize performance????
+      * ORDER BY operations are expensive and don't parallelize well
+      * **Sorting** should be **applied to the smallest possible dataset**
+      * BigQuery processes queries in stages - **do heavy operations first, sorting last**
+      * Reduces memory pressure and improves execution time
+      * Minimizes the amount of data that needs to be shuffled and sorted
     * Optimize your join patterns
       * As a best practice,
         * place the **table with the largest number of rows first (distributed evenly)**,
