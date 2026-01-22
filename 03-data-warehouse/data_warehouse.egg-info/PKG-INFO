@@ -5,6 +5,7 @@ Summary: DE Zoomcamp W3 Data warehouse
 Requires-Python: >=3.12
 Description-Content-Type: text/markdown
 Requires-Dist: google
+Requires-Dist: google-cloud-storage
 
 # Data Warehouse and BigQuery
 
