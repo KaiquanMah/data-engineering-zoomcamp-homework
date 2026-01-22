@@ -144,6 +144,63 @@ typing_extensions==4.15.0
 urllib3==2.6.3
 uv==0.9.26
 ```
+* run the `load_yellow_taxi_data.py` script to download NYC yellow taxi data from Jan 2024 to Jun 2024, then upload to GCS
+```bash
+(.venv) @kaiquanmah0 ➜ /workspaces/data-engineering-zoomcamp-homework/03-data-warehouse (main) $ python load_yellow_taxi_data.py
+Bucket 'kai-kestra' exists and belongs to your project. Proceeding...
+Downloading https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2024-01.parquet...
+Downloading https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2024-02.parquet...
+Downloading https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2024-03.parquet...
+Downloading https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2024-04.parquet...
+Downloaded: ./yellow_tripdata_2024-02.parquet
+Downloading https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2024-05.parquet...
+Downloaded: ./yellow_tripdata_2024-01.parquet
+Downloading https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2024-06.parquet...
+Downloaded: ./yellow_tripdata_2024-03.parquet
+Downloaded: ./yellow_tripdata_2024-04.parquet
+Downloaded: ./yellow_tripdata_2024-05.parquet
+Downloaded: ./yellow_tripdata_2024-06.parquet
+
+
+Bucket 'kai-kestra' exists and belongs to your project. Proceeding...
+Uploading ./yellow_tripdata_2024-03.parquet to kai-kestra (Attempt 1)...
+Bucket 'kai-kestra' exists and belongs to your project. Proceeding...
+Uploading ./yellow_tripdata_2024-01.parquet to kai-kestra (Attempt 1)...
+Bucket 'kai-kestra' exists and belongs to your project. Proceeding...
+Uploading ./yellow_tripdata_2024-04.parquet to kai-kestra (Attempt 1)...
+Bucket 'kai-kestra' exists and belongs to your project. Proceeding...
+Uploading ./yellow_tripdata_2024-02.parquet to kai-kestra (Attempt 1)...
+Uploaded: gs://kai-kestra/yellow_tripdata_2024-01.parquet
+Uploaded: gs://kai-kestra/yellow_tripdata_2024-02.parquet
+Verification successful for yellow_tripdata_2024-01.parquet
+Verification successful for yellow_tripdata_2024-02.parquet
+Bucket 'kai-kestra' exists and belongs to your project. Proceeding...
+Uploading ./yellow_tripdata_2024-05.parquet to kai-kestra (Attempt 1)...
+Bucket 'kai-kestra' exists and belongs to your project. Proceeding...
+Uploading ./yellow_tripdata_2024-06.parquet to kai-kestra (Attempt 1)...
+Uploaded: gs://kai-kestra/yellow_tripdata_2024-03.parquet
+Uploaded: gs://kai-kestra/yellow_tripdata_2024-04.parquet
+Verification successful for yellow_tripdata_2024-03.parquet
+Verification successful for yellow_tripdata_2024-04.parquet
+Uploaded: gs://kai-kestra/yellow_tripdata_2024-06.parquet
+Verification successful for yellow_tripdata_2024-06.parquet
+Uploaded: gs://kai-kestra/yellow_tripdata_2024-05.parquet
+Verification successful for yellow_tripdata_2024-05.parquet
+All files processed and verified.
+
+
+
+
+# deactivate venv after finishing ingestion
+(.venv) @kaiquanmah0 ➜ /workspaces/data-engineering-zoomcamp-homework/03-data-warehouse (main) $ deactivate
+```
+
+## Kai 2026.01.22 - Create 1 external table using the Yellow Taxi Trip Records
+xx
+
+## Kai 2026.01.22 - Create 1 (regular/materialized) table in BQ using the Yellow Taxi Trip Records (NOT partitioned or clustered)
+xx
+
 
 
 ## Question 1:
