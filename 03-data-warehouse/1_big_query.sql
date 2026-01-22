@@ -14,10 +14,14 @@ OPTIONS (
 -- Check yellow trip data
 SELECT * FROM taxi-rides-ny.nytaxi.external_yellow_tripdata limit 10;
 
+
+
+
+
+
 -- Create a non partitioned table from external table
 CREATE OR REPLACE TABLE taxi-rides-ny.nytaxi.yellow_tripdata_non_partitioned AS
 SELECT * FROM taxi-rides-ny.nytaxi.external_yellow_tripdata;
-
 
 -- Create a partitioned table from external table
 CREATE OR REPLACE TABLE taxi-rides-ny.nytaxi.yellow_tripdata_partitioned
@@ -36,11 +40,22 @@ SELECT DISTINCT(VendorID)
 FROM taxi-rides-ny.nytaxi.yellow_tripdata_partitioned
 WHERE DATE(tpep_pickup_datetime) BETWEEN '2019-06-01' AND '2019-06-30';
 
+
+
+
 -- Let's look into the partitions
 SELECT table_name, partition_id, total_rows
 FROM `nytaxi.INFORMATION_SCHEMA.PARTITIONS`
 WHERE table_name = 'yellow_tripdata_partitioned'
 ORDER BY total_rows DESC;
+
+
+
+
+
+
+
+
 
 -- Creating a partition and cluster table
 CREATE OR REPLACE TABLE taxi-rides-ny.nytaxi.yellow_tripdata_partitioned_clustered
