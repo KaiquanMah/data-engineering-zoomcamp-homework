@@ -11,7 +11,8 @@ import time
 BUCKET_NAME = " kai-kestra"
 
 # If you authenticated through the GCP SDK you can comment out these two lines
-CREDENTIALS_FILE = "gcs.json"
+# CREDENTIALS_FILE = "gcs.json"
+CREDENTIALS_FILE = "../01-docker-terraform/terraform/terraform/proud-outrider-483901-c3-2f890d3d3b86.json"
 client = storage.Client.from_service_account_json(CREDENTIALS_FILE)
 # If commented initialize client with the following
 # client = storage.Client(project='zoomcamp-mod3-datawarehouse')
