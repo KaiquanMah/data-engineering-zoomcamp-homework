@@ -37,6 +37,9 @@ Choose your setup path:
 - **Requires**: Completed Module 3 with BigQuery data
 - [→ Get Started](setup/cloud_setup.md)
 
+
+
+
 ## Content
 
 ### Introduction to Analytics Engineering
