@@ -95,6 +95,7 @@ When you created your BigQuery datasets in Module 3, you chose a location (e.g.,
 **To check your dataset location:**
 1. In BigQuery Console, click on the `nytaxi` dataset
 2. Look for **Data location** in the dataset details
+   * `europe-west2` (during week 2's lesson on Kestra workflows)
 
 ## Step 2: Sign Up for dbt Platform
 
@@ -139,6 +140,7 @@ Connect dbt Cloud to your BigQuery data warehouse.
 2. **Location**: Select the same location as your `nytaxi` dataset from Module 3
    - Example: `US`, `EU`, or `us-central1`
    - **This must match your nytaxi dataset location**
+   - `europe-west2` (during week 2's lesson on Kestra workflows)
 
 3. **Timeout**: `300` seconds
 
@@ -163,22 +165,25 @@ dbt Cloud needs a Git repository to store your project code. You have two option
 
 It doesn't matter which one you prefer for this course.
 
+
+
+
 ## Step 6: Create Your Development Environment
 
 ### What Are Environments in dbt?
 
 In dbt, **environments** define different contexts where your data transformations run:
 
-- **Development Environment**: Your personal workspace for building and testing models
-  - Uses your personal credentials
-  - Creates temporary schemas with your name (e.g., `dbt_<your_name>`)
+- **Development Environment: Your personal workspace** for building and testing models
+  - Uses your **personal credentials**
+  - Creates **temporary schemas with your name** (e.g., `dbt_<your_name>`)
   - Changes only affect your work, not production
-  - Used when working in the dbt Cloud IDE
+  - **Used when working in the dbt Cloud IDE**
 
 - **Deployment Environment**: The production workspace where final models run on schedule
-  - Uses service account credentials
-  - Creates production schemas (e.g., `dbt_prod_staging`, `dbt_prod_marts`)
-  - Used by scheduled jobs that keep your data warehouse updated
+  - Uses **service account credentials**
+  - Creates **production schemas** (e.g., `dbt_prod_staging`, `dbt_prod_marts`)
+  - Used by **scheduled jobs** that keep your data warehouse updated
 
 Think of it like having a draft folder (development) and a published folder (deployment) for your analytics code.
 
@@ -198,6 +203,7 @@ After setting up your repository, dbt Cloud will prompt you to initialize a deve
    - **Option 2 - Service Account**:
      - Use the same service account JSON from Step 4
      - Less secure for development (shared credentials)
+     - **2026.01.23: seems like this is chosen by default**
 
 3. **Development Schema**: This is where your personal development models will be created
    - dbt automatically suggests: `dbt_<your_name>` (e.g., `dbt_john_smith`)

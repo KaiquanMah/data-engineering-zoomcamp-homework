@@ -15,17 +15,17 @@ This guide walks you through setting up a local analytics engineering environmen
 
 **Important**: All dbt commands must be run from inside the `taxi_rides_ny/` directory. The setup steps below will guide you through:
 
-1. Installing the necessary tools
-2. Configuring your connection to DuckDB
-3. Loading the NYC taxi data
-4. Verifying everything works
+1. **Installing** the necessary tools
+2. **Configuring your connection to DuckDB**
+3. **Loading** the NYC taxi data
+4. **Verifying** everything works
 
 ## Step 1: Install DuckDB
 
 DuckDB is a fast, in-process SQL database that works great for local analytics workloads. To install DuckDB, follow the instruction on the [official site](https://duckdb.org/docs/installation) for your specific operating system.
 
 > [!TIP]
-> *You can install DuckDB in two ways. You can install the CLI or install the client API for your favorite programming language (in the case of Python, you can use `pip install duckdb`). I personally prefer installing the CLI, but either way is fine.*
+> *You can install DuckDB in two ways. You can install the **CLI or install the client API** for your favorite programming language (in the case of Python, you can use `pip install duckdb`). I personally prefer installing the CLI, but either way is fine.*
 
 ## Step 2: Install dbt
 
@@ -36,7 +36,7 @@ pip install dbt-duckdb
 This installs:
 
 * `dbt-core`: The core dbt framework
-* `dbt-duckdb`: The DuckDB adapter for dbt
+* `dbt-duckdb`: The **DuckDB adapter for dbt**
 
 ## Step 3: Configure dbt Profile
 
@@ -159,6 +159,9 @@ if __name__ == "__main__":
 
 This script downloads yellow and green taxi data from 2019-2020, creates the `prod` schema, and loads the raw data into DuckDB. The download may take several minutes depending on your internet connection.
 
+
+
+
 ## Step 5: Test the dbt Connection
 
 Verify dbt can connect to your DuckDB database:
@@ -167,29 +170,32 @@ Verify dbt can connect to your DuckDB database:
 dbt debug
 ```
 
+
+
+
 ## Step 6: Install dbt Power User Extension (VS Code Users)
 
 If you're using Visual Studio Code, install the **dbt Power User** extension to enhance your dbt development experience.
 
 ### What is dbt Power User?
 
-dbt Power User is a VS Code extension that provides:
+`dbt Power User` is a VS Code extension that provides:
 
-* SQL syntax highlighting and formatting for dbt models
-* Inline column-level lineage visualization
-* Auto-completion for dbt models, sources, and macros
+* **SQL syntax highlighting and formatting** for dbt models
+* Inline **column-level lineage visualization**
+* **Auto-completion** for dbt models, sources, and macros
 * Interactive documentation preview
 * Model compilation and execution directly from the editor
 
 ### Why Not Use the Official dbt Extension?
 
-dbt Labs released an official VS Code extension called [dbt Extension](https://marketplace.visualstudio.com/items?itemName=dbtLabsInc.dbt) powered by the new dbt Fusion engine. However, this extension **requires dbt Fusion** and does not support dbt Core.
+dbt Labs released an official VS Code extension called [dbt Extension](https://marketplace.visualstudio.com/items?itemName=dbtLabsInc.dbt) powered by the new dbt Fusion engine. However, this extension **requires dbt Fusion and does not support dbt Core.**
 
-Since we're using **dbt Core** with DuckDB for local development, we need the community-maintained **dbt Power User by AltimateAI** extension instead. This extension:
+Since we're using **dbt Core** with DuckDB **for local development**, we need the **community-maintained dbt Power User by AltimateAI** extension instead. This extension:
 
 * Works seamlessly with dbt Core (not just dbt Cloud)
-* Supports all dbt adapters, including DuckDB
-* Is actively maintained and open source
+* **Supports all dbt adapters, including DuckDB**
+* **Is actively maintained and open source**
 * Provides a rich feature set for local development
 
 ### Installation
@@ -200,6 +206,10 @@ Since we're using **dbt Core** with DuckDB for local development, we need the co
 4. Install **dbt Power User by AltimateAI** (not the dbt Labs version)
 
 Alternatively, install it from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=innoverio.vscode-dbt-power-user).
+
+
+
+
 
 ## Step 7: Install Streamlit
 
