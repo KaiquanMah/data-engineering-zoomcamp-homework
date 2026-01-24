@@ -17,7 +17,7 @@
 
 A window function performs a calculation across a set of table rows that are related to the current row within a specific "window" or subset of data. This is comparable to the type of calculation that can be done with an aggregate function  (such as SUM(), AVG(), COUNT(), etc.).
 
-But unlike regular aggregate functions, use of a window function does not cause rows to become grouped into a single output row — the rows retain their separate identities.
+But unlike regular aggregate functions, use of a window function does not cause rows to become grouped into a single output row — **the rows retain their separate identities.**
 
 
 **Syntax:**
@@ -26,7 +26,7 @@ But unlike regular aggregate functions, use of a window function does not cause 
 FUNCTION() OVER (PARTITION BY column_name ORDER BY column_name)
 ```
 
-A window function always has two components. This second part here defines your window:
+A window function always has **2 components**. This second part here defines your window:
 
 ```sql
 OVER (PARTITION BY column_name ORDER BY column_name)
@@ -43,23 +43,23 @@ Your window here is how you want to be viewing your data when you're applying yo
 
 Ranking Functions:
 
-- ROW_NUMBER(): Assigns a unique row number within a partition.
-- RANK(): Similar to ROW_NUMBER(), but assigns the same rank to duplicate values, skipping numbers.
-- DENSE_RANK(): Like RANK(), but without gaps in numbering.
+- ROW_NUMBER(): Assigns a **unique row number** within a partition.
+- RANK(): Similar to ROW_NUMBER(), but assigns the **same rank to duplicate values, skipping numbers**.
+- DENSE_RANK(): Like RANK(), but **without gaps in numbering.**
 
 Aggregate Functions as Window Functions:
 
 - SUM() OVER(): Computes a running total.
-- AVG() OVER(): Computes a moving average.
+- AVG() OVER(): Computes a **moving average.**
 
 Lag and Lead Functions:
 
-- LAG(): Retrieves the value from a previous row.
-- LEAD(): Retrieves the value from the next row.
+- LAG(): **Retrieves the value from a previous row.**
+- LEAD(): Retrieves the value from the **next row.**
 
 ### Row Number
 
-ROW_NUMBER() does just what it sounds like—displays the number of a given row. It starts at 1 and numbers the rows according to the ORDER BY part of the window statement. Using the PARTITION BY clause will allow you to begin counting 1 again in each partition.
+ROW_NUMBER() does just what it sounds like — displays the number of a given row. It starts at 1 and numbers the rows according to the ORDER BY part of the window statement. Using the PARTITION BY clause will allow you to **begin counting 1 again in each partition.**
 
 **Syntax:**
 
@@ -69,11 +69,11 @@ ROW_NUMBER() OVER (PARTITION BY column_name ORDER BY column_name)
 
 **Common Uses:**
 
-- Removing Duplicates: You can use ROW_NUMBER() to identify duplicate rows and keep only one by filtering out rows with a row number greater than 1.
+- Removing Duplicates: You can use ROW_NUMBER() to **identify duplicate rows and** keep only one by **filtering out rows with a row number greater than 1.**
 
-- Ranking Data: Used when ranking rows based on specific criteria but requiring unique row numbers.
+- Ranking Data: Used when **ranking rows based on specific criteria (ASC/DESC in ur ORDER BY)** but requiring unique row numbers.
 
-- Selecting the Latest Record: Helps in selecting the most recent entry per category when combined with PARTITION BY.
+- Selecting the Latest Record: Helps in selecting the **most recent entry per category (DESC in ur ORDER BY)** when combined with PARTITION BY.
 
 **Example 1:**
 
@@ -139,13 +139,47 @@ PULocationID group:
 | 61.94     | 234       | 4         |
 | 61.94     | 234       | 5         |
 
+
+
+2026.01.24 kai - Fixed query to get top 5 per partition
+* the above SQL seems to give a misleading view of partitioned rankings, because `LIMIT 10` cuts off records which might be `1, ..., 5` in a partition
+* in the SQL below, we use a CTE to first assign rankings, then select only the top 5 ranked records per partition
+
+```sql
+WITH ranked_trips AS (
+  SELECT 
+    total_amount,
+    PULocationID,
+    ROW_NUMBER() OVER (PARTITION BY PULocationID ORDER BY total_amount DESC) AS ranking
+  FROM `greentaxi_trips`
+)
+SELECT * FROM ranked_trips 
+WHERE ranking <= 5  -- Get top 5 per partition
+LIMIT 10;           -- Overall limit if needed
+```
+
+| total_amount | PULocationID | ranking |
+|-----------|-----------|-----------|
+| 8.51      | 224       | 1       |
+| 8.3       | 224       | 2       |
+| 8.3       | 224       | 3       |
+| 7.3       | 224       | 4       |
+| 3.3       | 224       | 5       |
+| 86.42     | 234       | 1         |
+| 73.5      | 234       | 2         |
+| 62.7      | 234       | 3         |
+| 61.94     | 234       | 4         |
+| 61.94     | 234       | 5         |
+
 Using the PARTITION BY clause will allow you to begin counting 1 again in each partition.
+
 
 ### Rank and Dense Rank
 
-ROW_NUMBER(), RANK(), and DENSE_RANK() are window functions used to assign a ranking to rows based on a specified order. However, they behave differently when there are duplicate values in the ranking column.
+`ROW_NUMBER(), RANK(), and DENSE_RANK()` are window functions used to assign a ranking to rows based on a specified order. However, they behave differently when there are duplicate values in the ranking column.
 
-RANK() assigns a ranking, but skips numbers if there are ties. DENSE_RANK() its similar to RANK(), but does not skip numbers when there are ties.
+* RANK() assigns a ranking, but skips numbers if there are ties. 
+* DENSE_RANK() its similar to RANK(), but does not skip numbers when there are ties.
 
 For example:
 
@@ -159,7 +193,7 @@ For example:
 
 ### Lag and Lead
 
-It can often be useful to compare rows to preceding or following rows. You can use LAG or LEAD to create columns that pull values from other rows without the need for a self-join. All you need to do is enter which column to pull from and how many rows away you'd like to do the pull. LAG pulls from previous rows and LEAD pulls from following rows
+It can often be useful to compare rows to preceding or following rows. You can use LAG or LEAD to create columns that pull values from other rows **without the need for a self-join**. All you need to do is enter which column to pull from and how many rows away you'd like to do the pull. LAG pulls from previous rows and LEAD pulls from following rows
 
 
 **Syntax:**
@@ -170,7 +204,7 @@ LAG(expression) OVER (PARTITION BY partition_expression ORDER BY order_expressio
 ```
 
 - expression: The column whose value you want to retrieve from the previous row
-- offset (optional): The number of rows back from the current row to look. The default is 1, meaning it looks at the immediate previous row.
+- offset (optional): The number of rows back from the current row to look. The **default is 1, meaning it looks at the immediate previous row.**
 - PARTITION BY (optional): Divides the result set into partitions to apply the function to each partition separately.
 - ORDER BY: Specifies the order in which the rows are processed.
 
@@ -203,7 +237,7 @@ The query retrieves the lpep_pickup_datetime, total_amount, the previous trip's 
 
 ### Percentile Cont
 
-Computes the specified percentile value for the value_expression, with linear interpolation.
+Computes the specified **percentile value** for the value_expression, **with linear interpolation.**
 
 **Syntax:**
 
@@ -253,7 +287,7 @@ is constant at 51.9, which means that for location "224", 90% of the total amoun
 
 ## Common Table Expression
 
-A CTE, short for Common Table Expression, is like a query within a query. With the WITH statement, you can create temporary tables to store results, making complex queries more readable and maintainable. These temporary tables exist only for the duration of the main query.
+A CTE, short for Common Table Expression, is like a query within a query. With the `WITH statement`, you can create temporary tables to store results, making complex queries more readable and maintainable. These temporary tables exist only for the duration of the main query.
 
 CTEs and subqueries are both powerful tools and can be used to achieve similar goals, but they have different use cases and advantages. Differences are CTE is reusable during the entire session and more readable
 
@@ -291,7 +325,7 @@ SELECT * FROM cte WHERE rank = 2;
 
 ```
 
-The query starts with a Common Table Expression (CTE) named cte. We use the RANK() window function to 
+The query starts with a Common Table Expression (CTE) named **cte**. We use the RANK() window function to 
 assign a ranking (rank) to each row based on total_amount in descending order (from highest to lowest).
 
 Now, we use the CTE in the main query: ```SELECT * FROM cte WHERE rank = 2;```
