@@ -190,6 +190,9 @@ Think of it like having a draft folder (development) and a published folder (dep
 ### Create Your Development Environment
 
 After setting up your repository, dbt Cloud will prompt you to initialize a development environment.
+* dbt will use these credentials to connect to your database on your behalf
+* When you're ready to deploy your dbt project to production, you'll be able to supply your production credentials separately.
+
 
 1. You'll see a screen titled **"Initialize your development environment"**
 
@@ -209,6 +212,7 @@ After setting up your repository, dbt Cloud will prompt you to initialize a deve
    - dbt automatically suggests: `dbt_<your_name>` (e.g., `dbt_john_smith`)
    - You can customize it, but the default is recommended
    - This schema is separate from production (`dbt_prod`)
+   - In development, dbt will build your models into a dataset with this name. This dataset name should be unique to your personal development environment and should **not be shared by other members of your team.**
 
 4. **Target Name**: Leave as `dev` (default)
    - This is just an internal identifier for this environment
@@ -217,7 +221,10 @@ After setting up your repository, dbt Cloud will prompt you to initialize a deve
 
 6. Click **Continue**
 
+
+
 ## Step 7: Initialize the Environment
+2026.01.24: Note that the development environment / IDE is under the `Studio` tab
 
 1. dbt Cloud will now set up your development environment
    - Installing dbt dependencies
