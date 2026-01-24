@@ -9,6 +9,11 @@
 # **google_credentials.json
 proud-outrider-483901-c3-2f890d3d3b86.json
 
+# Java and spark files
+# 2026.01.24 - PLEASE SETUP Java and Spark ON YOUR OWN MACHINE
+# because different machines might need different installation packages
+05-batch/spark/*
+
 
 # others
 .DS_Store
