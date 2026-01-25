@@ -152,10 +152,6 @@ df.write.parquet('zones')
 Note that the code workings above is used in `/workspaces/data-engineering-zoomcamp-homework/05-batch/code/03_test.ipynb`
 
 
-## URLs
-* Port 8888 - Jupyter notebook UI - https://expert-waddle-v6w4g64w564wc7wv-8888.app.github.dev/tree/code
-* Port 4040 - Spark cluster jobs monitoring UI - https://expert-waddle-v6w4g64w564wc7wv-4040.app.github.dev/jobs/
-
 ## Free up space in github codespace after setups and large file downloads
 ```bash
 ls -la ~/.local/share/Trash/*
@@ -278,3 +274,20 @@ du -sh * | sort -h
 703M    01-docker-terraform
 913M    05-batch
 ```
+
+
+## Setup during every new codespace session
+```bash
+cd 05-batch/
+source jupyterenv/bin/activate
+export PYTHONPATH="/workspaces/data-engineering-zoomcamp-homework/05-batch/spark/spark-3.3.2-bin-hadoop3/python:$PYTHONPATH"
+export PYTHONPATH="/workspaces/data-engineering-zoomcamp-homework/05-batch/spark/spark-3.3.2-bin-hadoop3/python/lib/py4j-0.10.9.5-src.zip:$PYTHONPATH"
+
+jupyter notebook
+```
+
+
+## URLs
+* Port 8888 - Jupyter notebook UI - https://expert-waddle-v6w4g64w564wc7wv-8888.app.github.dev/tree/code
+* Port 4040 - Spark cluster jobs monitoring UI - https://expert-waddle-v6w4g64w564wc7wv-4040.app.github.dev/jobs/
+

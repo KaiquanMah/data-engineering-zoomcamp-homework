@@ -14,6 +14,10 @@ proud-outrider-483901-c3-2f890d3d3b86.json
 # because different machines might need different installation packages
 05-batch/spark/*
 
+# w5 large dataset
+*.csv.gz
+05-batch/code/fhvhv/*
+
 
 # others
 .DS_Store
