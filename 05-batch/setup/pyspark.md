@@ -251,4 +251,30 @@ drwxr-xr-x  1 root      root      4096 Jan 18 03:49 ..
 drwxr-xr-x+ 4 codespace root      4096 Jan 18 03:49 .codespaces
 drwxrwxrwx+ 2 codespace codespace 4096 Jan 18 03:50 .oryx
 drwxrwxrwx+ 9 codespace root      4096 Jan 25 09:15 data-engineering-zoomcamp-homework
+
+
+
+# last resort
+#    go to the top of codespace
+#    > rebuild codespace
+#    full rebuild
+
+df -h
+Filesystem      Size  Used Avail Use% Mounted on
+overlay          32G   12G   18G  40% /
+tmpfs            64M     0   64M   0% /dev
+shm              64M     0   64M   0% /dev/shm
+/dev/root        29G   22G  7.6G  74% /vscode
+/dev/sdc1        44G  4.2G   38G  10% /tmp
+/dev/loop4       32G   12G   18G  40% /workspaces
+
+
+du -sh * | sort -h
+4.0K    LICENSE
+16K     later
+332K    [to revisit taxi_rides_ny - confusing lectures] 04-analytics-engineering
+3.5M    02-workflow-orchestration
+412M    03-data-warehouse
+703M    01-docker-terraform
+913M    05-batch
 ```
