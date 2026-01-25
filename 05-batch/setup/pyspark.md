@@ -149,7 +149,106 @@ Test that writing works as well:
 df.write.parquet('zones')
 ```
 
+Note that the code workings above is used in `/workspaces/data-engineering-zoomcamp-homework/05-batch/code/03_test.ipynb`
+
 
 ## URLs
 * Port 8888 - Jupyter notebook UI - https://expert-waddle-v6w4g64w564wc7wv-8888.app.github.dev/tree/code
 * Port 4040 - Spark cluster jobs monitoring UI - https://expert-waddle-v6w4g64w564wc7wv-4040.app.github.dev/jobs/
+
+## Free up space in github codespace after setups and large file downloads
+```bash
+ls -la ~/.local/share/Trash/*
+ls: cannot access '/home/codespace/.local/share/Trash/*': No such file or directory
+
+ls -la ~/.local/share/ | grep Trash
+
+
+
+df -h
+Filesystem      Size  Used Avail Use% Mounted on
+overlay          32G   29G  1.2G  96% /
+tmpfs            64M     0   64M   0% /dev
+shm              64M     0   64M   0% /dev/shm
+/dev/root        29G   22G  7.6G  74% /vscode
+/dev/sdc1        44G  2.9G   39G   7% /tmp
+/dev/loop4       32G   29G  1.2G  96% /workspaces
+
+
+
+du -sh * | sort -h
+4.0K    LICENSE
+16K     later
+332K    [to revisit taxi_rides_ny - confusing lectures] 04-analytics-engineering
+3.5M    02-workflow-orchestration
+129M    yellow_tripdata_2020-12.csv
+412M    03-data-warehouse
+703M    01-docker-terraform
+913M    05-batch
+
+
+sudo apt-get clean
+pip cache purge
+docker system prune -f
+docker volume prune -f
+
+du -sh ~/.cache/* 2>/dev/null | sort -h
+8.0K    /home/codespace/.cache/conda
+12K     /home/codespace/.cache/Microsoft
+4.6M    /home/codespace/.cache/pip
+6.7M    /home/codespace/.cache/jedi
+556M    /home/codespace/.cache/uv
+
+du -sh ~/.npm/* 2>/dev/null | sort -h
+16K     /home/codespace/.npm/_logs
+
+
+
+
+
+
+
+df -h
+Filesystem      Size  Used Avail Use% Mounted on
+overlay          32G   29G  1.7G  95% /
+tmpfs            64M     0   64M   0% /dev
+shm              64M     0   64M   0% /dev/shm
+/dev/root        29G   22G  7.6G  74% /vscode
+/dev/sdc1        44G  3.9G   38G  10% /tmp
+/dev/loop4       32G   29G  1.7G  95% /workspaces
+
+du -sh * | sort -h
+4.0K    LICENSE
+16K     later
+332K    [to revisit taxi_rides_ny - confusing lectures] 04-analytics-engineering
+3.5M    02-workflow-orchestration
+412M    03-data-warehouse
+703M    01-docker-terraform
+913M    05-batch
+
+
+
+
+# then cd.. all the way up to /workspaces
+@kaiquanmah0 ➜ /workspaces $
+
+# Navigate to the trash directory
+cd /workspaces/.Trash-1000
+
+# Remove all files and folders in the trash (this is safe - these are already deleted files)
+rm -rf files/* info/*
+
+# Verify the trash is empty
+ls files/ info/
+
+
+rm -rf .Trash-1000
+
+ls -la
+total 20
+drwxr-xrwx+ 5 codespace root      4096 Jan 25 09:26 .
+drwxr-xr-x  1 root      root      4096 Jan 18 03:49 ..
+drwxr-xr-x+ 4 codespace root      4096 Jan 18 03:49 .codespaces
+drwxrwxrwx+ 2 codespace codespace 4096 Jan 18 03:50 .oryx
+drwxrwxrwx+ 9 codespace root      4096 Jan 25 09:15 data-engineering-zoomcamp-homework
+```
