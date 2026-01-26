@@ -1,27 +1,8 @@
-## Running Spark in the Cloud
-
-### Connecting to Google Cloud Storage 
-
-Uploading data to GCS:
-
-```bash
-gsutil -m cp -r pq/ gs://dtc_data_lake_de-zoomcamp-nytaxi/pq
-```
-
-Download the jar for connecting to GCS to any location (e.g. the `lib` folder):
-
-**Note**: For other versions of GCS connector for Hadoop see [Cloud Storage connector ](https://cloud.google.com/dataproc/docs/concepts/connectors/cloud-storage#connector-setup-on-non-dataproc-clusters).
-
-```bash
-gsutil cp gs://hadoop-lib/gcs/gcs-connector-hadoop3-2.2.5.jar ./lib/
-```
-
-See the notebook with configuration in [09_spark_gcs.ipynb](09_spark_gcs.ipynb)
-
-(Thanks Alvin Do for the instructions!)
+## Running Spark in the Cloud - 2 ways (Refer to parts 2A+2B OR 3)
 
 
-### Local Cluster and Spark-Submit
+### 1. [2026.01.26 NON-CLOUD] Local Cluster and Spark-Submit
+* Lecture video (DE Zoomcamp 5.6.2 - Creating a Local Spark Cluster): https://youtu.be/HXBwSlXo5IA
 
 Creating a stand-alone cluster ([docs](https://spark.apache.org/docs/latest/spark-standalone.html)):
 
@@ -45,7 +26,7 @@ Turn the notebook into a script:
 jupyter nbconvert --to=script 06_spark_sql.ipynb
 ```
 
-Edit the script and then run it:
+Edit the script (**to fix the python code**) and then run:
 
 ```bash 
 python 06_spark_sql.py \
@@ -67,19 +48,61 @@ spark-submit \
         --output=data/report-2021
 ```
 
-### Data Proc
+To stop workers and master node in the Spark cluster
+```bash
+./sbin/stop-slave.sh
+./sbin/stop-master.sh
+```
 
-Upload the script to GCS:
+
+
+
+
+### 2A. Connecting to Google Cloud Storage 
+* Lecture video (DE Zoomcamp 5.6.1 - Connecting to Google Cloud Storage): https://youtu.be/Yyz293hBVcQ
+* And follow `09_spark_gcs.ipynb`
+
+**Uploading parquet data to GCS:**
+
+```bash
+gsutil -m cp -r pq/ gs://dtc_data_lake_de-zoomcamp-nytaxi/pq
+```
+
+**Download** the jar for connecting to GCS, **from GCS to any local folder/location** (e.g. the `lib` folder):
+
+**Note**: For other versions of GCS connector for Hadoop see [Cloud Storage connector ](https://cloud.google.com/dataproc/docs/concepts/connectors/cloud-storage#connector-setup-on-non-dataproc-clusters).
+
+```bash
+gsutil cp gs://hadoop-lib/gcs/gcs-connector-hadoop3-2.2.5.jar ./lib/
+```
+
+See the notebook with configuration in [09_spark_gcs.ipynb](09_spark_gcs.ipynb)
+
+(Thanks Alvin Do for the instructions!)
+
+
+
+
+
+### 2B. Data Proc
+* DE Zoomcamp 5.6.3 - Setting up a Dataproc Cluster lecture video - https://youtu.be/osAiAYahvh8
+* Enable `Cloud Dataproc API`
+
+* Upload the script to GCS:
 
 ```bash
 gsutil -m cp -r 06_spark_sql.py gs://dtc_data_lake_de-zoomcamp-nytaxi/code/06_spark_sql.py
 ```
 
-Params for the job:
-
-* `--input_green=gs://dtc_data_lake_de-zoomcamp-nytaxi/pq/green/2021/*/`
-* `--input_yellow=gs://dtc_data_lake_de-zoomcamp-nytaxi/pq/yellow/2021/*/`
-* `--output=gs://dtc_data_lake_de-zoomcamp-nytaxi/report-2021`
+* Create a Dataproc cluster
+* Once Dataproc cluster is created, `submit job`
+* job type: `pyspark`
+* main python file: `gs://dtc_data_lake_de-zoomcamp-nytaxi/code/06_spark_sql.py`
+* Params for the job:
+    * `--input_green=gs://dtc_data_lake_de-zoomcamp-nytaxi/pq/green/2021/*/`
+    * `--input_yellow=gs://dtc_data_lake_de-zoomcamp-nytaxi/pq/yellow/2021/*/`
+    * `--output=gs://dtc_data_lake_de-zoomcamp-nytaxi/report-2021`
+* `Submit`
 
 
 Using Google Cloud SDK for submitting to dataproc
@@ -96,7 +119,7 @@ gcloud dataproc jobs submit pyspark \
         --output=gs://dtc_data_lake_de-zoomcamp-nytaxi/report-2020
 ```
 
-### Big Query
+### 3. BigQuery
 
 Upload the script to GCS:
 
