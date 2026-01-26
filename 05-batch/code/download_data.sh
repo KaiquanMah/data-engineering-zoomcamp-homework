@@ -1,5 +1,5 @@
 
-set -e
+set -e  # if a cmd exits with non-0 code -> interrupt execution of the script
 
 TAXI_TYPE=$1 # "yellow"
 YEAR=$2 # 2020

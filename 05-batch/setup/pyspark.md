@@ -291,3 +291,10 @@ jupyter notebook
 * Port 8888 - Jupyter notebook UI - https://expert-waddle-v6w4g64w564wc7wv-8888.app.github.dev/tree/code
 * Port 4040 - Spark cluster jobs monitoring UI - https://expert-waddle-v6w4g64w564wc7wv-4040.app.github.dev/jobs/
 
+## Download dataset
+* Which comes from https://github.com/DataTalksClub/nyc-tlc-data/releases
+```bash
+cd 05-batch/code/
+chmod +x download_data.sh
+./download_data.sh yellow 2020
+```

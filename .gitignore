@@ -17,6 +17,8 @@ proud-outrider-483901-c3-2f890d3d3b86.json
 # w5 large dataset
 *.csv.gz
 05-batch/code/fhvhv/*
+05-batch/code/data/raw/* # raw CSV
+05-batch/code/data/pq/* # partitioned parquet
 
 
 # others
