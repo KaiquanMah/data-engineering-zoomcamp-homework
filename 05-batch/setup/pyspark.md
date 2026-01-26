@@ -152,6 +152,18 @@ df.write.parquet('zones')
 Note that the code workings above is used in `/workspaces/data-engineering-zoomcamp-homework/05-batch/code/03_test.ipynb`
 
 
+### PySpark: Setting Spark up in Google Colab (Last Resort)
+If you are struggling to set things up "locally" (meaning non-managed environments like your laptop, a VM, or Codespaces), you can follow this guide to use Spark in Google Colab:
+
+Launch Spark on Google Colab and Connect to SparkUI - https://medium.com/gitconnected/launch-spark-on-google-colab-and-connect-to-sparkui-342cad19b304
+
+Starter notebook:
+GitHub Repository - Spark in Colab - https://github.com/aaalexlit/medium_articles/blob/main/Spark_in_Colab.ipynb
+
+It’s advisable to spend some time setting up locally rather than using this solution immediately.
+
+
+
 ## Free up space in github codespace after setups and large file downloads
 ```bash
 ls -la ~/.local/share/Trash/*
